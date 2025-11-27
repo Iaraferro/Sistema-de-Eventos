@@ -1,368 +1,252 @@
+// 📁 script.js (CORRETO E COMPLETO)
+// 🌿 Substituir dados mock pela API real
 
-// 🌿 Lista de eventos do site
-// 🌿 Configuração da API
-const API_CONFIG = {
-  BASE_URL: 'http://localhost:3000/api',
-  ENDPOINTS: {
-    EVENTOS: '/eventos',
-    ADMIN: '/admin'
-  }
-};
-
-// 🗂️ Serviço para comunicação com a API
-class ApiService {
-  constructor() {
-    this.baseUrl = API_CONFIG.BASE_URL;
-  }
-
-  // Método genérico para fazer requisições
-  async request(endpoint, options = {}) {
-    try {
-      const url = `${this.baseUrl}${endpoint}`;
-      const response = await fetch(url, {
-        headers: {
-          'Content-Type': 'application/json',
-          ...options.headers
-        },
-        ...options
-      });
-
-      if (!response.ok) {
-        throw new Error(`Erro na requisição: ${response.status}`);
-      }
-
-      return await response.json();
-    } catch (error) {
-      console.error('Erro na comunicação com a API:', error);
-      throw error;
-    }
-  }
-
-  // 🔹 Buscar todos os eventos
-  async getEventos() {
-    return new Promise(resolve => {
-      setTimeout(() => {
-        resolve(eventos);
-      }, 500);
-    });
-  }
-
-  // 🔹 Buscar evento por ID
-  async getEventoById(id) {
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        const evento = eventos.find(e => e.id === id);
-        if (evento) {
-          resolve(evento);
-        } else {
-          reject(new Error('Evento não encontrado'));
-        }
-      }, 300);
-    });
-  }
-}
-
-// 📋 Dados mock
-const eventos = [
-  {
-    id: 1,
-    titulo: "Plantio de Mudas no Parque Cesamar",
-    data: "2025-11-25",
-    local: "Parque Cesamar",
-    categoria: "Reflorestamento",
-    imagem: "https://i.pinimg.com/1200x/40/68/e9/4068e92c207b1c7fb311ab9b7ccdeab1.jpg",
-    participantes: 42,
-    descricao: "Participe do plantio de mudas nativas e ajude a reflorestar áreas degradadas.",
-    organizador: "Secretaria do Meio Ambiente",
-    contato: "meioambiente@palmas.to.gov.br",
-    requisitos: "Trazer luvas e protetor solar."
-  },
-  {
-    id: 2,
-    titulo: "Limpeza do Lago de Palmas",
-    data: "2025-12-10",
-    local: "Orla do Lago",
-    categoria: "Limpeza de Rios",
-    imagem: "https://i.pinimg.com/1200x/5c/f8/92/5cf8929a03c20807b60a6b0b8cc03357.jpg",
-    participantes: 65,
-    descricao: "Mutirão de limpeza das margens do Lago de Palmas. Vamos cuidar das nossas águas!",
-    organizador: "Projeto Lago Limpo",
-    contato: "contato@lagolimpo.org",
-    requisitos: "Usar roupas leves e calçado fechado."
-  },
-  {
-    id: 3,
-    titulo: "Palestras Agrotins",
-    data: "2025-10-07",
-    local: "Unitins",
-    categoria: "Palestra",
-    imagem: "https://i.pinimg.com/736x/3f/a6/ea/3fa6ea0fb9b9889b651083a27c32fed6.jpg",
-    participantes: 29,
-    descricao: "Palestras sobre agricultura sustentável e tecnologias ambientais.",
-    organizador: "Agrotins",
-    contato: "contato@agrotins.to.gov.br",
-    requisitos: "Inscrição prévia no site oficial."
-  },
-  {
-    id: 4,
-    titulo: "Workshop de Compostagem Doméstica",
-    data: "2024-09-15",
-    local: "Horto Florestal",
-    categoria: "Workshop",
-    imagem: "https://i.pinimg.com/736x/f0/7e/a6/f07ea6238bcbffc1e7df0aeb8bf7cdc1.jpg",
-    participantes: 35,
-    descricao: "Aprenda a fazer compostagem em casa e reduza seu lixo orgânico.",
-    organizador: "Instituto EcoVida",
-    contato: "contato@ecovida.org",
-    requisitos: "Trazer caderno para anotações."
-  },
-  {
-    id: 5,
-    titulo: "Mutirão de Coleta de Lixo Eletrônico",
-    data: "2024-08-20",
-    local: "Praça dos Girassóis",
-    categoria: "Coleta Seletiva",
-    imagem: "https://i.pinimg.com/1200x/5e/e1/a5/5ee1a531f6dd777b4cf5628bbc51621c.jpg",
-    participantes: 120,
-    descricao: "Descarte correto de lixo eletrônico com orientação de especialistas.",
-    organizador: "Green Eletronic",
-    contato: "contato@greeneletronic.org",
-    requisitos: "Trazer equipamentos eletrônicos quebrados ou sem uso."
-  }
-
-];
-
-// 🎯 Instância do serviço da API
-const apiService = new ApiService();
-
-// 🗓️ Função que formata a data
-function formatarData(dataString) {
-  const data = new Date(dataString);
-  const meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"];
-  return { dia: data.getDate(), mes: meses[data.getMonth()] };
-}
-
-function criarCardEventoEstatico(evento, isEventoPassado = false) {
-  const { dia, mes } = formatarData(evento.data);
-  
-  const cardClasses = isEventoPassado ? 'event-card clickable-card' : 'event-card';
-  
-  return `
-    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-      <div class="card h-100 shadow-sm ${cardClasses}" ${isEventoPassado ? `onclick="redirecionarParaDetalhes(${evento.id})"` : ''}>
-        <div class="event-image-container">
-          <img src="${evento.imagem}" class="card-img-top event-image" alt="${evento.titulo}">
-          <span class="badge ${isEventoPassado ? 'bg-secondary' : 'bg-success'} status-badge">
-            ${isEventoPassado ? 'Realizado' : 'Em breve'}
-          </span>
-        </div>
-        <div class="card-body d-flex flex-column">
-          <div class="d-flex justify-content-between align-items-start mb-2">
-            <div class="event-date bg-success text-white text-center rounded p-2">
-              <div class="event-day fw-bold">${dia}</div>
-              <div class="event-month small">${mes}</div>
+// 🎯 Funções auxiliares para UI
+// 🎯 Funções auxiliares para UI
+// 🎯 Funções auxiliares para UI
+function criarLoadingCards(quantidade) {
+    return Array.from({ length: quantidade }, (_, index) => `
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card event-card h-100">
+                <div class="card-skeleton" style="height: 200px; border-radius: 8px 8px 0 0;"></div>
+                <div class="card-body">
+                    <div class="card-skeleton" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
+                    <div class="card-skeleton" style="height: 16px; width: 60%; margin-bottom: 15px;"></div>
+                    <div class="card-skeleton" style="height: 14px; width: 90%; margin-bottom: 8px;"></div>
+                    <div class="card-skeleton" style="height: 14px; width: 70%;"></div>
+                </div>
             </div>
-            <span class="badge bg-light text-dark border">${evento.categoria}</span>
-          </div>
-          <h5 class="card-title">${evento.titulo}</h5>
-          <p class="card-text text-muted flex-grow-1">
-            <i class="bi bi-geo-alt"></i> ${evento.local}
-          </p>
-          <div class="mt-auto">
-            ${isEventoPassado ? 
-              `<button class="btn btn-outline-success w-100 btn-detalhes" data-id="${evento.id}">
-                <i class="bi bi-info-circle me-2"></i>Ver Detalhes
-              </button>` : 
-              `<button class="btn btn-success w-100" disabled>
-                <i class="bi bi-clock me-2"></i>Em Breve
-              </button>`
-            }
-          </div>
         </div>
-      </div>
-    </div>
-  `;
+    `).join('');
 }
 
-// 🎯 Função para renderizar eventos em containers estáticos
-async function renderizarEventosEstaticos() {
-  // Mostrar loading
-  const containerFuturos = document.getElementById('proximos-eventos-container');
-  const containerConcluidos = document.getElementById('eventos-concluidos-container');
-  
-  if (containerFuturos) containerFuturos.innerHTML = criarLoadingCards(4);
-  if (containerConcluidos) containerConcluidos.innerHTML = criarLoadingCards(4);
+function criarMensagemVazia(tipo) {
+    return `
+        <div class="col-12 text-center py-5">
+            <i class="bi bi-calendar-x display-1 text-muted"></i>
+            <h4 class="mt-3 text-muted">Nenhum ${tipo} encontrado</h4>
+            <p class="text-muted">Aguardando novos eventos serem cadastrados.</p>
+        </div>
+    `;
+}
 
-  try {
-    const eventos = await apiService.getEventos();
+function criarMensagemErro() {
+    return `
+        <div class="col-12 text-center py-5">
+            <i class="bi bi-exclamation-triangle display-1 text-danger"></i>
+            <h4 class="mt-3 text-danger">Erro ao carregar eventos</h4>
+            <p class="text-muted">Não foi possível carregar os eventos. Tente novamente mais tarde.</p>
+            <button class="btn btn-success mt-3" onclick="renderizarEventosEstaticos()">
+                <i class="bi bi-arrow-repeat me-2"></i>Tentar Novamente
+            </button>
+        </div>
+    `;
+}
+
+
+function criarCardEventoEstatico(evento, isConcluido) {
+    // 🆕 CORREÇÃO IDÊNTICA AO evento.js
+    let imagemUrl = evento.imagem || evento.imagemPrincipal;
+    
+    // Converter nome do arquivo para URL completa (igual ao evento.js)
+    if (imagemUrl && !imagemUrl.startsWith('http')) {
+        imagemUrl = `http://localhost:8080/arquivos/${imagemUrl}`;
+    }
+    
+    // Se ainda não tem imagem, usar primeiro arquivo
+    if ((!imagemUrl || imagemUrl === 'undefined') && 
+        evento.arquivos && evento.arquivos.length > 0) {
+        let primeiroArquivo = evento.arquivos[0];
+        // Converter também o primeiro arquivo para URL completa
+        if (primeiroArquivo && !primeiroArquivo.startsWith('http')) {
+            primeiroArquivo = `http://localhost:8080/arquivos/${primeiroArquivo}`;
+        }
+        imagemUrl = primeiroArquivo;
+    }
+    
+    // Fallback final
+    if (!imagemUrl || imagemUrl === 'undefined' || imagemUrl === 'null') {
+        imagemUrl = 'https://images.unsplash.com/photo-1542603833994-03f327ac79f9?auto=format&fit=crop&w=1350&q=80';
+    }
+
+    console.log('🎯 URL da imagem no card:', imagemUrl);
+    
+    const dataEvento = new Date(evento.dataHora);
     const hoje = new Date();
     
-    // Separar eventos
-    const eventosFuturos = eventos.filter(evento => new Date(evento.data) >= hoje);
-    const eventosConcluidos = eventos.filter(evento => new Date(evento.data) < hoje);
+    const isFuturo = dataEvento > hoje;
+    const status = isConcluido ? 'Realizado' : (isFuturo ? 'Em Breve' : 'Hoje');
+    const statusClass = isConcluido ? 'bg-secondary' : (isFuturo ? 'bg-warning' : 'bg-success');
     
-    // Ordenar eventos futuros por data (mais próximos primeiro)
-    eventosFuturos.sort((a, b) => new Date(a.data) - new Date(b.data));
-    
-    // Ordenar eventos concluídos por data (mais recentes primeiro)
-    eventosConcluidos.sort((a, b) => new Date(b.data) - new Date(a.data));
-    
-    // Renderizar eventos futuros
-    if (containerFuturos) {
-      if (eventosFuturos.length > 0) {
-        containerFuturos.innerHTML = eventosFuturos.map(evento => 
-          criarCardEventoEstatico(evento, false)
-        ).join('');
-      } else {
-        containerFuturos.innerHTML = criarMensagemVazia('próximos eventos');
-      }
-    }
-    
-    // Renderizar eventos concluídos
-    if (containerConcluidos) {
-      if (eventosConcluidos.length > 0) {
-        containerConcluidos.innerHTML = eventosConcluidos.map(evento => 
-          criarCardEventoEstatico(evento, true)
-        ).join('');
-        
-        // Adicionar eventos aos botões "Ver Detalhes" dos eventos concluídos
-        setTimeout(() => {
-          document.querySelectorAll("#eventos-concluidos-container .btn-detalhes").forEach(btn => {
-            btn.addEventListener("click", e => {
-              e.stopPropagation(); // Prevenir duplo clique
-              const id = parseInt(btn.getAttribute("data-id"));
-              redirecionarParaDetalhes(id);
-            });
-          });
-        }, 100);
-      } else {
-        containerConcluidos.innerHTML = criarMensagemVazia('eventos realizados');
-      }
-    }
-
-  } catch (error) {
-    console.error('Erro ao carregar eventos:', error);
-    
-    if (containerFuturos) containerFuturos.innerHTML = criarMensagemErro();
-    if (containerConcluidos) containerConcluidos.innerHTML = criarMensagemErro();
-  }
-}
-
-//Criar Loadings cards
-function criarLoadingCards(quantidade) {
-  return Array(quantidade).fill(0).map(() => `
-    <div class="col-12 col-sm-6 col-lg-4 col-xl-3">
-      <div class="card h-100 shadow-sm">
-        <div class="card-skeleton" style="height: 180px;"></div>
-        <div class="card-body">
-          <div class="card-skeleton" style="height: 20px; width: 80%; margin-bottom: 10px;"></div>
-          <div class="card-skeleton" style="height: 15px; width: 60%;"></div>
+    return `
+        <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card event-card h-100 clickable-card" onclick="redirecionarParaDetalhes(${evento.id})">
+                <div class="event-image-container">
+                    <img src="${imagemUrl}" class="card-img-top event-image" alt="${evento.nome || evento.titulo}">
+                    <span class="badge status-badge ${statusClass}">
+                        ${status}
+                    </span>
+                </div>
+                <div class="card-body d-flex flex-column">
+                    <div class="d-flex align-items-start mb-3">
+                        <div class="event-date me-3">
+                            <div class="event-day">${dataEvento.getDate()}</div>
+                            <div class="event-month">${dataEvento.toLocaleDateString('pt-BR', { month: 'short' })}</div>
+                        </div>
+                        <div class="flex-grow-1">
+                            <h6 class="card-title mb-1">${evento.nome || evento.titulo}</h6>
+                            <small class="text-muted">${evento.categoria}</small>
+                        </div>
+                    </div>
+                    
+                    <p class="card-text small text-muted flex-grow-1">
+                        ${evento.descricao?.substring(0, 100)}${evento.descricao?.length > 100 ? '...' : ''}
+                    </p>
+                    
+                    <div class="event-info mt-auto">
+                        <div class="d-flex justify-content-between align-items-center small text-muted mb-2">
+                            <span><i class="bi bi-geo-alt me-1"></i>${evento.local}</span>
+                            <span><i class="bi bi-people me-1"></i>${evento.participantes || 0}</span>
+                        </div>
+                        
+                        <div class="text-center">
+                            <small class="text-muted">Clique para ver detalhes</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  `).join('');
+    `;
 }
 
-// 🎯 Função para criar mensagem de lista vazia
-function criarMensagemVazia(tipo) {
-  return `
-    <div class="col-12 text-center py-5">
-      <i class="bi bi-calendar-x display-1 text-muted"></i>
-      <h4 class="mt-3 text-muted">Nenhum ${tipo}</h4>
-      <p class="text-muted">Volte em breve para conferir novas programações.</p>
-    </div>
-  `;
-}
-
-// 🎯 Função para criar mensagem de erro
-function criarMensagemErro() {
-  return `
-    <div class="col-12 text-center py-5">
-      <i class="bi bi-exclamation-triangle display-1 text-danger"></i>
-      <h3 class="mt-3">Erro ao carregar eventos</h3>
-      <p class="text-muted">Tente recarregar a página.</p>
-      <button class="btn btn-outline-success" onclick="renderizarEventosEstaticos()">
-        <i class="bi bi-arrow-clockwise me-2"></i>Tentar Novamente
-      </button>
-    </div>
-  `;
-}
 
 // 🌐 Função para redirecionar para detalhes do evento
 function redirecionarParaDetalhes(id) {
-  window.location.href = `evento.html?id=${id}`;
+    window.location.href = `evento.html?id=${id}`;
 }
 
-// 🌿 Botão "Voltar ao topo"
-const backToTop = document.querySelector(".back-to-top");
-if (backToTop) {
-  window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) {
-      backToTop.classList.add("show");
-    } else {
-      backToTop.classList.remove("show");
+// 🎯 Função principal para renderizar eventos da API REAL
+// 🎯 Função principal para renderizar eventos (CORRIGIDA)
+async function renderizarEventosEstaticos() {
+    const containerFuturos = document.getElementById('proximos-eventos-container');
+    const containerConcluidos = document.getElementById('eventos-concluidos-container');
+    
+    if (containerFuturos) containerFuturos.innerHTML = criarLoadingCards(4);
+    if (containerConcluidos) containerConcluidos.innerHTML = criarLoadingCards(4);
+
+    try {
+        console.log('📡 Buscando eventos da API...');
+        let eventos = await eventoService.listarEventos();
+        
+        // 🆕 SE API ESTIVER VAZIA, BUSCAR EVENTOS SINCRONIZADOS
+        if (!eventos || eventos.length === 0) {
+            console.log('🔄 API vazia, buscando eventos sincronizados...');
+            eventos = JSON.parse(localStorage.getItem('eventosUsuario') || '[]');
+            
+            // Se ainda estiver vazio, buscar do admin como último recurso
+            if (eventos.length === 0) {
+                console.log('🔄 Buscando eventos do admin...');
+                const eventosAdmin = JSON.parse(localStorage.getItem('eventosAdmin') || '[]');
+                
+                // Converter formato do admin para formato do usuário
+                eventos = eventosAdmin.map(evento => ({
+                    id: evento.id,
+                    titulo: evento.titulo,
+                    descricao: evento.descricao,
+                    dataHora: evento.data,
+                    local: evento.local,
+                    categoria: evento.categoria,
+                    organizador: evento.organizador,
+                    contato: evento.contato,
+                    requisitos: evento.requisitos,
+                    participantes: evento.participantes,
+                    imagem: evento.imagem
+                }));
+            }
+        }
+        
+        console.log('✅ Eventos carregados:', eventos);
+        
+        const hoje = new Date();
+        
+        // Separar eventos
+        const eventosFuturos = eventos.filter(evento => {
+            try {
+                return new Date(evento.dataHora) >= hoje;
+            } catch (error) {
+                console.warn('⚠️ Data inválida:', evento.dataHora);
+                return false;
+            }
+        });
+        
+        const eventosConcluidos = eventos.filter(evento => {
+            try {
+                return new Date(evento.dataHora) < hoje;
+            } catch (error) {
+                console.warn('⚠️ Data inválida:', evento.dataHora);
+                return false;
+            }
+        });
+        
+        // Ordenar
+        eventosFuturos.sort((a, b) => new Date(a.dataHora) - new Date(b.dataHora));
+        eventosConcluidos.sort((a, b) => new Date(b.dataHora) - new Date(a.dataHora));
+        
+        // Renderizar eventos futuros
+        if (containerFuturos) {
+            if (eventosFuturos.length > 0) {
+                containerFuturos.innerHTML = eventosFuturos.map(evento => 
+                    criarCardEventoEstatico(evento, false)
+                ).join('');
+            } else {
+                containerFuturos.innerHTML = criarMensagemVazia('próximos eventos');
+            }
+        }
+        
+        // Renderizar eventos concluídos
+        if (containerConcluidos) {
+            if (eventosConcluidos.length > 0) {
+                containerConcluidos.innerHTML = eventosConcluidos.map(evento => 
+                    criarCardEventoEstatico(evento, true)
+                ).join('');
+            } else {
+                containerConcluidos.innerHTML = criarMensagemVazia('eventos realizados');
+            }
+        }
+
+    } catch (error) {
+        console.error('❌ Erro ao carregar eventos:', error);
+        
+        if (containerFuturos) containerFuturos.innerHTML = criarMensagemErro();
+        if (containerConcluidos) containerConcluidos.innerHTML = criarMensagemErro();
     }
-  });
-
-  backToTop.addEventListener("click", e => {
-    e.preventDefault();
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  });
 }
 
-// 🚀 Quando o site carrega, mostra os eventos
+// 🔧 Função para adicionar link do painel admin se usuário estiver logado
+function adicionarLinkPainelAdmin() {
+    const navbar = document.querySelector('.navbar-nav');
+    if (navbar) {
+        const linkAdmin = document.createElement('li');
+        linkAdmin.className = 'nav-item';
+        linkAdmin.innerHTML = `
+            <a class="nav-link" href="painel-admin.html">
+                <i class="bi bi-speedometer2 me-1"></i>Painel Admin
+            </a>
+        `;
+        navbar.appendChild(linkAdmin);
+    }
+}
+
+// 🚀 Quando o site carrega, mostra os eventos DA API REAL
 document.addEventListener("DOMContentLoaded", function() {
-  renderizarEventosEstaticos(); // CORRIGIDO: Chamar a função correta
-  
-  // Adicionar CSS para os cards clicáveis
-  if (!document.querySelector('#cardsStyles')) {
-    const style = document.createElement('style');
-    style.id = 'cardsStyles';
-    style.textContent = `
-      .clickable-card {
-        cursor: pointer;
-        transition: all 0.3s ease;
-      }
-      .clickable-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-      }
-      .event-image-container {
-        position: relative;
-        overflow: hidden;
-      }
-      .event-image {
-        height: 200px;
-        object-fit: cover;
-        transition: transform 0.3s ease;
-      }
-      .clickable-card:hover .event-image {
-        transform: scale(1.05);
-      }
-      .status-badge {
-        position: absolute;
-        top: 10px;
-        right: 10px;
-        z-index: 2;
-      }
-      .card-skeleton {
-        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-        background-size: 200% 100%;
-        animation: loading 1.5s infinite;
-        border-radius: 8px;
-      }
-      @keyframes loading {
-        0% { background-position: 200% 0; }
-        100% { background-position: -200% 0; }
-      }
-      .section-title {
-        color: #2E8B57;
-        margin-bottom: 30px;
-        font-weight: 700;
-        border-left: 5px solid #2E8B57;
-        padding-left: 15px;
-      }
-    `;
-    document.head.appendChild(style);
-  }
+    console.log('🚀 Inicializando página principal...');
+    renderizarEventosEstaticos(); // AGORA USA API REAL!
+    
+    // Verificar se usuário está logado para mostrar opções admin
+    if (authService && authService.isAuthenticated()) {
+        console.log('👤 Usuário logado - adicionando link admin');
+        adicionarLinkPainelAdmin();
+    } else {
+        console.log('👤 Usuário não logado');
+    }
 });
