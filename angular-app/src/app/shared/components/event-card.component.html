@@ -1,0 +1,43 @@
+<div class="col-md-6 col-lg-3 mb-4">
+  <a
+    class="card event-card h-100 clickable-card text-decoration-none"
+    [routerLink]="['/eventos', event().id]"
+    [attr.aria-label]="event().ariaLabel"
+  >
+    <div class="event-image-container">
+      <img [src]="event().imageUrl" class="card-img-top event-image" [alt]="event().title">
+      <span class="badge status-badge" [class]="event().statusBadgeClass">
+        {{ event().statusLabel }}
+      </span>
+    </div>
+
+    <div class="card-body d-flex flex-column">
+      <div class="d-flex align-items-start mb-3">
+        <div class="event-date me-3">
+          <div class="event-day">{{ event().dayLabel }}</div>
+          <div class="event-month">{{ event().monthLabel }}</div>
+        </div>
+
+        <div class="flex-grow-1">
+          <h6 class="card-title mb-1">{{ event().title }}</h6>
+          <small class="text-muted">{{ event().categoryLabel }}</small>
+        </div>
+      </div>
+
+      <p class="card-text small text-muted flex-grow-1">
+        {{ event().excerpt }}
+      </p>
+
+      <div class="event-info mt-auto">
+        <div class="d-flex justify-content-between align-items-center small text-muted mb-2 gap-2">
+          <span class="text-truncate">
+            <i class="bi bi-geo-alt me-1"></i>{{ event().location }}
+          </span>
+          <span>
+            <i class="bi bi-arrow-right-circle me-1"></i>Detalhes
+          </span>
+        </div>
+      </div>
+    </div>
+  </a>
+</div>

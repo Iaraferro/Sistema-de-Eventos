@@ -1,0 +1,39 @@
+.hero-section {
+  background:
+    linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),
+    url('https://images.unsplash.com/photo-1418065460487-3e41a6c84dc5?auto=format&fit=crop&w=1350&q=80');
+  background-size: cover;
+  background-position: center;
+  color: #fff;
+  padding: 110px 0;
+}
+
+.hero-content {
+  max-width: 680px;
+}
+
+.hero-content p {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.hero-actions {
+  margin-top: 2rem;
+}
+
+.event-card {
+  border: none;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+@media (max-width: 768px) {
+  .hero-section {
+    padding: 88px 0;
+    text-align: center;
+  }
+
+  .hero-content {
+    margin: 0 auto;
+  }
+}

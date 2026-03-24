@@ -1,0 +1,95 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  --eco-primary: #2e8b57;
+  --eco-primary-dark: #1d6e44;
+  --eco-secondary: #8fbc8f;
+  --eco-accent: #ffd700;
+  --eco-light: #f9f9f9;
+  --eco-surface: #ffffff;
+  --eco-text: #243035;
+  --eco-muted: #6b7280;
+  --eco-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--eco-light);
+  color: var(--eco-text);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.navbar-brand {
+  font-family: 'Montserrat', sans-serif;
+}
+
+a {
+  color: inherit;
+}
+
+.section-title {
+  color: var(--eco-primary);
+  margin-bottom: 1rem;
+  font-weight: 700;
+  border-left: 5px solid var(--eco-primary);
+  padding-left: 15px;
+}
+
+.card-skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+  border-radius: 8px;
+}
+
+.content-state {
+  background: var(--eco-surface);
+  border-radius: 18px;
+  padding: 2.5rem 1.5rem;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.content-state i {
+  color: var(--eco-primary);
+}
+
+.btn-eco {
+  background-color: var(--eco-primary);
+  border-color: var(--eco-primary);
+  color: #fff;
+}
+
+.btn-eco:hover,
+.btn-eco:focus {
+  background-color: var(--eco-primary-dark);
+  border-color: var(--eco-primary-dark);
+  color: #fff;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .section-title {
+    border-left: none;
+    padding-left: 0;
+    text-align: center;
+  }
+}

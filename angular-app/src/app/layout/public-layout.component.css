@@ -1,0 +1,47 @@
+.site-navbar {
+  background-color: var(--eco-primary);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.12);
+}
+
+.site-navbar .nav-link {
+  font-weight: 500;
+}
+
+.site-navbar .nav-link.active {
+  color: #fff;
+  font-weight: 700;
+}
+
+.page-shell {
+  min-height: calc(100vh - 170px);
+  padding-top: 70px;
+}
+
+.site-footer {
+  background-color: var(--eco-primary);
+  color: #fff;
+  padding: 2rem 0;
+  margin-top: 3rem;
+}
+
+.footer-note {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.back-to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1040;
+  width: 46px;
+  height: 46px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--eco-primary);
+  color: #fff;
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+
+.back-to-top:hover {
+  background-color: var(--eco-primary-dark);
+}

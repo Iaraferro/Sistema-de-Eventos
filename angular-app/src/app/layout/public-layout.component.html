@@ -1,0 +1,72 @@
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top site-navbar">
+  <div class="container">
+    <a class="navbar-brand fw-bold" routerLink="/">
+      <i class="bi bi-tree-fill me-2"></i>EcoEventos Palmas
+    </a>
+
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarNav"
+      aria-controls="navbarNav"
+      aria-expanded="false"
+      aria-label="Alternar navegacao"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            routerLink="/"
+            routerLinkActive="active"
+            [routerLinkActiveOptions]="{ exact: true }"
+          >
+            Inicio
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" routerLink="/" fragment="eventos">Eventos</a>
+        </li>
+        <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
+          <a
+            class="btn btn-outline-light btn-sm rounded-pill px-3"
+            href="/legacy/cadastro-admin.html"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Cadastro Admin Legado
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<main class="page-shell">
+  <router-outlet />
+</main>
+
+<footer class="site-footer">
+  <div class="container text-center">
+    <p class="mb-1">&copy; {{ currentYear }} EcoEventos Palmas - Todos os direitos reservados</p>
+    <small class="footer-note">
+      Fase publica migrada para Angular 21. A area administrativa permanece no legado ate a
+      validacao.
+    </small>
+  </div>
+</footer>
+
+@if (showBackToTop()) {
+  <button
+    type="button"
+    class="back-to-top"
+    aria-label="Voltar ao topo"
+    (click)="scrollToTop()"
+  >
+    <i class="bi bi-arrow-up"></i>
+  </button>
+}

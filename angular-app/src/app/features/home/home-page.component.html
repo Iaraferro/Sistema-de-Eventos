@@ -1,0 +1,121 @@
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="display-4 fw-bold">Juntos por uma Palmas mais verde</h1>
+      <p class="lead">
+        Participe de eventos ambientais e acompanhe as proximas acoes que fortalecem a
+        preservacao da nossa cidade.
+      </p>
+      <div class="hero-actions">
+        <a class="btn btn-light btn-lg rounded-pill px-4" routerLink="/" fragment="eventos">
+          Explorar eventos
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="py-5" id="eventos">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="section-title">
+          <i class="bi bi-leaf me-2"></i>Proximos Eventos
+        </h2>
+        <p class="text-muted">Participe dos proximos eventos ambientais em Palmas.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      @if (errorMessage()) {
+        <div class="col-12">
+          <div class="content-state text-center">
+            <i class="bi bi-exclamation-triangle display-4 d-block mb-3"></i>
+            <h3 class="h4 mb-3">Erro ao carregar eventos</h3>
+            <p class="text-muted mb-4">{{ errorMessage() }}</p>
+            <button type="button" class="btn btn-eco" (click)="loadEvents()">
+              <i class="bi bi-arrow-repeat me-2"></i>Tentar novamente
+            </button>
+          </div>
+        </div>
+      } @else if (isLoading()) {
+        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card event-card h-100">
+              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
+              <div class="card-body">
+                <div class="card-skeleton mb-3" style="height: 20px; width: 80%;"></div>
+                <div class="card-skeleton mb-3" style="height: 16px; width: 60%;"></div>
+                <div class="card-skeleton mb-2" style="height: 14px; width: 92%;"></div>
+                <div class="card-skeleton" style="height: 14px; width: 72%;"></div>
+              </div>
+            </div>
+          </div>
+        }
+      } @else if (hasNoUpcomingEvents()) {
+        <div class="col-12">
+          <div class="content-state text-center">
+            <i class="bi bi-calendar-x display-4 d-block mb-3"></i>
+            <h3 class="h4 mb-3">Nenhum proximo evento encontrado</h3>
+            <p class="text-muted mb-0">Aguardando novas acoes ambientais serem cadastradas.</p>
+          </div>
+        </div>
+      } @else {
+        @for (event of upcomingEvents(); track event.id) {
+          <app-event-card [event]="event" />
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<section class="py-5 bg-light">
+  <div class="container">
+    <div class="row mb-4">
+      <div class="col-12">
+        <h2 class="section-title">
+          <i class="bi bi-check-circle me-2"></i>Eventos Realizados
+        </h2>
+        <p class="text-muted">Confira os eventos ambientais que ja passaram pela comunidade.</p>
+      </div>
+    </div>
+
+    <div class="row g-4">
+      @if (errorMessage()) {
+        <div class="col-12">
+          <div class="content-state text-center">
+            <i class="bi bi-exclamation-triangle display-4 d-block mb-3"></i>
+            <h3 class="h4 mb-3">Nao foi possivel carregar os eventos realizados</h3>
+            <p class="text-muted mb-0">A listagem sera exibida assim que a API voltar a responder.</p>
+          </div>
+        </div>
+      } @else if (isLoading()) {
+        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
+          <div class="col-md-6 col-lg-3 mb-4">
+            <div class="card event-card h-100">
+              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
+              <div class="card-body">
+                <div class="card-skeleton mb-3" style="height: 20px; width: 80%;"></div>
+                <div class="card-skeleton mb-3" style="height: 16px; width: 60%;"></div>
+                <div class="card-skeleton mb-2" style="height: 14px; width: 92%;"></div>
+                <div class="card-skeleton" style="height: 14px; width: 72%;"></div>
+              </div>
+            </div>
+          </div>
+        }
+      } @else if (hasNoCompletedEvents()) {
+        <div class="col-12">
+          <div class="content-state text-center">
+            <i class="bi bi-hourglass-split display-4 d-block mb-3"></i>
+            <h3 class="h4 mb-3">Nenhum evento concluido ainda</h3>
+            <p class="text-muted mb-0">Assim que os eventos forem finalizados, eles aparecerao aqui.</p>
+          </div>
+        </div>
+      } @else {
+        @for (event of completedEvents(); track event.id) {
+          <app-event-card [event]="event" />
+        }
+      }
+    </div>
+  </div>
+</section>
