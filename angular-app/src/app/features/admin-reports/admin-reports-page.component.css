@@ -1,0 +1,148 @@
+:host {
+  display: block;
+}
+
+.admin-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.page-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--eco-primary);
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.report-card,
+.panel-card {
+  padding: 1.25rem;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+.report-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  margin-bottom: 1rem;
+}
+
+.report-icon[data-tone='success'] {
+  background: linear-gradient(135deg, #16a34a, #22c55e);
+}
+
+.report-icon[data-tone='primary'] {
+  background: linear-gradient(135deg, #1d6e44, #2e8b57);
+}
+
+.report-icon[data-tone='warning'] {
+  background: linear-gradient(135deg, #7a5b00, #d8a600);
+}
+
+.report-icon[data-tone='info'] {
+  background: linear-gradient(135deg, #3d7f5c, #5a9d76);
+}
+
+.report-value {
+  font-size: clamp(1.8rem, 4vw, 2.35rem);
+  font-weight: 800;
+  color: #0f172a;
+  line-height: 1;
+}
+
+.report-title {
+  margin-top: 0.35rem;
+  font-weight: 700;
+  color: #334155;
+}
+
+.report-helper {
+  margin-top: 0.35rem;
+  color: #64748b;
+}
+
+.panel-chip {
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: #f1f5f9;
+  color: #334155;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.chart-stack {
+  display: grid;
+  gap: 1rem;
+}
+
+.chart-line {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 3fr) auto;
+  gap: 0.8rem;
+  align-items: center;
+}
+
+.chart-line span {
+  color: #334155;
+  font-weight: 600;
+}
+
+.chart-line strong {
+  color: #0f172a;
+}
+
+.quick-list {
+  display: grid;
+  gap: 0.85rem;
+}
+
+.quick-item {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.95rem;
+  border-radius: 18px;
+  background: #f8fafc;
+  align-items: start;
+}
+
+.quick-item i {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(46, 139, 87, 0.14);
+  color: #1d6e44;
+  flex-shrink: 0;
+}
+
+@media (max-width: 767.98px) {
+  .page-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chart-line {
+    grid-template-columns: 1fr;
+  }
+}

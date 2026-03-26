@@ -1,0 +1,74 @@
+<section class="admin-access">
+  <div class="container py-4 py-lg-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+        <div class="access-panel">
+          <div class="row g-4">
+            <div class="col-lg-5">
+              <div class="hero-copy">
+                <span class="eyebrow">Acesso administrativo</span>
+                <h1 class="h3 mt-3 mb-3">Painel de controle EcoEventos Palmas</h1>
+                <p class="text-muted mb-0">
+                  Realize o login administrativo para acessar o painel legado migrado para Angular 21.
+                </p>
+              </div>
+            </div>
+
+            <div class="col-lg-7">
+              <div class="panel-section">
+                <h2 class="section-title">Login</h2>
+
+                <form class="row g-3" [formGroup]="loginForm" (ngSubmit)="login()">
+                  <div class="col-12">
+                    <label class="form-label" for="login-username">Usuario</label>
+                    <input
+                      id="login-username"
+                      class="form-control"
+                      type="text"
+                      formControlName="username"
+                    >
+                  </div>
+
+                  <div class="col-12">
+                    <label class="form-label" for="login-password">Senha</label>
+                    <input
+                      id="login-password"
+                      class="form-control"
+                      type="password"
+                      formControlName="senha"
+                    >
+                  </div>
+
+                  <div class="col-12 d-flex flex-wrap gap-2">
+                    <button type="submit" class="btn btn-success" [disabled]="loginPending()">
+                      {{ loginPending() ? 'Entrando...' : 'Entrar no painel' }}
+                    </button>
+                  </div>
+                </form>
+
+                @if (loginFeedback(); as loginMessage) {
+                  <div
+                    class="alert mt-3 mb-0"
+                    [class.alert-success]="loginAlertTone() === 'success'"
+                    [class.alert-danger]="loginAlertTone() === 'danger'"
+                    [class.alert-info]="loginAlertTone() === 'info'"
+                  >
+                    {{ loginMessage }}
+                  </div>
+                }
+
+                <div class="notice-panel mt-4">
+                  <div class="notice-title">Cadastro de administradores</div>
+                  <p class="mb-0 text-muted">
+                    Por seguranca, o cadastro de novos administradores fica disponivel apenas
+                    dentro da area autenticada, na tela de Configuracoes.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

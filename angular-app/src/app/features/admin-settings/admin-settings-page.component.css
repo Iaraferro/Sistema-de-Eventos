@@ -1,0 +1,129 @@
+:host {
+  display: block;
+}
+
+.admin-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--eco-primary);
+}
+
+.settings-card {
+  padding: 1.25rem;
+  border-radius: 24px;
+  background: #fff;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+}
+
+.settings-row,
+.toggle-row,
+.security-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.95rem 0;
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.settings-row:first-of-type,
+.toggle-row:first-of-type,
+.security-item:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+}
+
+.settings-label {
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.settings-help {
+  color: #64748b;
+  font-size: 0.92rem;
+}
+
+.settings-value {
+  color: #334155;
+  font-weight: 700;
+  text-align: right;
+}
+
+.settings-select {
+  max-width: 220px;
+}
+
+.form-control,
+.form-select {
+  border-radius: 10px;
+  border: 1px solid #d4d9df;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--eco-primary);
+  box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.2);
+}
+
+.security-grid {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.security-item i,
+.notice-box i {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  background: rgba(46, 139, 87, 0.14);
+  color: #1d6e44;
+  flex-shrink: 0;
+}
+
+.action-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.admin-badge {
+  display: inline-flex;
+  align-items: center;
+  border-radius: 999px;
+  padding: 0.55rem 0.95rem;
+  background: rgba(46, 139, 87, 0.12);
+  color: #1d6e44;
+  font-weight: 700;
+}
+
+.notice-box {
+  display: flex;
+  gap: 0.75rem;
+  align-items: start;
+  padding: 1rem;
+  border-radius: 18px;
+  background: linear-gradient(180deg, #f1f8f3, #ffffff);
+}
+
+@media (max-width: 767.98px) {
+  .settings-row,
+  .toggle-row,
+  .security-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .settings-value {
+    text-align: left;
+  }
+}

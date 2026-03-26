@@ -1,0 +1,95 @@
+<section class="admin-page">
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">Relatórios</span>
+      <h2 class="h3 fw-bold mt-2 mb-2">Indicadores e exportação</h2>
+      <p class="text-muted mb-0">Leituras rápidas para apoiar decisões e checkpoint manual do admin.</p>
+    </div>
+
+    <div class="page-actions">
+      <button type="button" class="btn btn-outline-secondary rounded-pill" (click)="exportTxt()">
+        <i class="bi bi-filetype-txt me-2"></i>Baixar TXT
+      </button>
+      <button type="button" class="btn btn-success rounded-pill" (click)="exportJson()">
+        <i class="bi bi-download me-2"></i>Exportar JSON
+      </button>
+    </div>
+  </div>
+
+  @if (exportFeedback(); as feedback) {
+    <div class="alert alert-info">{{ feedback }}</div>
+  }
+
+  @if (error(); as errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
+
+  <div class="row g-4">
+    @for (report of reports(); track report.title) {
+      <div class="col-12 col-md-6 col-xxl-3">
+        <article class="report-card h-100">
+          <div class="report-icon" [attr.data-tone]="report.tone">
+            <i class="bi bi-clipboard-data"></i>
+          </div>
+          <div class="report-value">{{ loading() ? '...' : report.value }}</div>
+          <div class="report-title">{{ report.title }}</div>
+          <p class="report-helper mb-0">{{ report.helper }}</p>
+        </article>
+      </div>
+    }
+  </div>
+
+  <div class="row g-4 mt-1">
+    <div class="col-12 col-xl-7">
+      <div class="panel-card h-100">
+        <div class="d-flex justify-content-between gap-3 align-items-center mb-3">
+          <div>
+            <h3 class="h5 fw-bold mb-1">Resumo administrativo</h3>
+            <p class="text-muted mb-0">Texto livre para complementar a validação do ciclo atual.</p>
+          </div>
+          <span class="panel-chip">Dados atuais</span>
+        </div>
+
+        <form [formGroup]="reportForm" class="d-grid gap-3">
+          <div>
+            <label class="form-label">Título</label>
+            <input class="form-control" type="text" formControlName="titulo">
+          </div>
+          <div>
+            <label class="form-label">Resumo</label>
+            <textarea class="form-control" rows="5" formControlName="resumo"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-5">
+      <div class="panel-card h-100">
+        <h3 class="h5 fw-bold mb-3">Ações rápidas</h3>
+        <div class="quick-list">
+          <div class="quick-item">
+            <i class="bi bi-file-earmark-arrow-down"></i>
+            <div>
+              <div class="fw-semibold">Gerar TXT consolidado</div>
+              <div class="text-muted small">Resumo simples para conferência local.</div>
+            </div>
+          </div>
+          <div class="quick-item">
+            <i class="bi bi-filetype-json"></i>
+            <div>
+              <div class="fw-semibold">Exportar JSON</div>
+              <div class="text-muted small">Base para revisão e apoio ao merge posterior.</div>
+            </div>
+          </div>
+          <div class="quick-item">
+            <i class="bi bi-info-circle"></i>
+            <div>
+              <div class="fw-semibold">Revisão manual</div>
+              <div class="text-muted small">JWT e guards ficam para a próxima etapa, após seu aceite.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

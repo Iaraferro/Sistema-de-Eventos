@@ -4,21 +4,18 @@ import { EventoDetailVm } from '../models/evento-detail-vm.model';
 
 const LOCALE = 'pt-BR';
 const FALLBACK_IMAGE =
-  'https://images.unsplash.com/photo-1542603833994-03f327ac79f9?auto=format&fit=crop&w=1350&q=80';
-const DEFAULT_CATEGORY = 'Evento Ambiental';
+  'https://images.unsplash.com/photo-1511497584788-876760111969?auto=format&fit=crop&w=1350&q=80';
+const DEFAULT_CATEGORY = 'Evento ambiental';
 const DEFAULT_ORGANIZER = 'EcoEventos Palmas';
-const DEFAULT_CONTACT = 'contato@ecoeventospalmas.local';
+const DEFAULT_CONTACT = 'contato@ecoeventospalmas.com';
 const DEFAULT_REQUIREMENTS =
-  'Traga disposicao, garrafa de agua e vontade de contribuir com a preservacao ambiental.';
+  'Traga disposição, garrafa de água e vontade de contribuir com a preservação ambiental.';
 
-export function mapApiEventoToCardVm(
-  evento: ApiEvento,
-  apiBaseUrl: string
-): EventoCardVm {
-  const date = parseDate(evento.dataHora);
+export function mapApiEventoToCardVm(evento: ApiEvento, apiBaseUrl: string): EventoCardVm {
+  const date = normalizeDateTimeValue(evento.dataHora);
   const status = resolveStatus(date);
-  const title = normalizeText(evento.nome, 'Evento sem titulo');
-  const description = normalizeText(evento.descricao, 'Descricao nao disponivel.');
+  const title = normalizeText(evento.nome, 'Evento sem título');
+  const description = normalizeText(evento.descricao, 'Descrição não disponível.');
 
   return {
     id: evento.id ?? 0,
@@ -27,7 +24,7 @@ export function mapApiEventoToCardVm(
     excerpt: buildExcerpt(description, 100),
     location: normalizeText(evento.local, 'Local a confirmar'),
     categoryLabel: DEFAULT_CATEGORY,
-    imageUrl: resolveEventImage(evento, apiBaseUrl),
+    imageUrl: resolveEventImageUrl(evento, apiBaseUrl),
     dayLabel: date ? new Intl.DateTimeFormat(LOCALE, { day: '2-digit' }).format(date) : '--',
     monthLabel: date
       ? new Intl.DateTimeFormat(LOCALE, { month: 'short' })
@@ -48,11 +45,11 @@ export function mapApiEventoToDetailVm(
   evento: ApiEvento,
   apiBaseUrl: string
 ): EventoDetailVm {
-  const date = parseDate(evento.dataHora);
+  const date = normalizeDateTimeValue(evento.dataHora);
   const status = resolveStatus(date);
-  const title = normalizeText(evento.nome, 'Evento sem titulo');
-  const description = normalizeText(evento.descricao, 'Descricao nao disponivel.');
-  const imageUrl = resolveEventImage(evento, apiBaseUrl);
+  const title = normalizeText(evento.nome, 'Evento sem título');
+  const description = normalizeText(evento.descricao, 'Descrição não disponível.');
+  const imageUrl = resolveEventImageUrl(evento, apiBaseUrl);
 
   return {
     id: evento.id ?? 0,
@@ -90,7 +87,7 @@ function normalizeText(value: string | null, fallback: string): string {
   return normalizedValue ? normalizedValue : fallback;
 }
 
-function parseDate(dateTime: string | null): Date | null {
+export function normalizeDateTimeValue(dateTime: string | null): Date | null {
   if (!dateTime) {
     return null;
   }
@@ -139,10 +136,8 @@ function getStatusBadgeClass(status: EventoStatus): string {
   }
 }
 
-function resolveEventImage(evento: ApiEvento, apiBaseUrl: string): string {
-  const firstFile = evento.arquivos?.find(
-    (arquivo) => typeof arquivo === 'string' && arquivo.trim().length > 0
-  );
+export function resolveEventImageUrl(evento: ApiEvento, apiBaseUrl: string): string {
+  const firstFile = evento.arquivos?.find((arquivo) => !!arquivo?.trim());
 
   if (!firstFile) {
     return FALLBACK_IMAGE;
@@ -165,4 +160,25 @@ function buildExcerpt(text: string, size: number): string {
   }
 
   return `${text.slice(0, size).trimEnd()}...`;
+}
+
+export function formatDisplayDate(date: Date): string {
+  return new Intl.DateTimeFormat(LOCALE, {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric'
+  }).format(date);
+}
+
+export function formatDisplayTime(date: Date): string {
+  return new Intl.DateTimeFormat(LOCALE, {
+    hour: '2-digit',
+    minute: '2-digit'
+  }).format(date);
+}
+
+export function formatDateInputValue(date: Date): string {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
+    date.getDate()
+  ).padStart(2, '0')}`;
 }

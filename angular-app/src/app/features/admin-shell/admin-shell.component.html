@@ -1,0 +1,95 @@
+<div class="admin-shell">
+  @if (isSidebarOpen()) {
+    <button
+      type="button"
+      class="sidebar-backdrop d-lg-none"
+      aria-label="Fechar menu administrativo"
+      (click)="closeSidebar()"
+    ></button>
+  }
+
+  <aside class="admin-sidebar" [class.open]="isSidebarOpen()">
+    <div class="sidebar-brand">
+      <div class="brand-mark">
+        <i class="bi bi-shield-lock"></i>
+      </div>
+      <div>
+        <div class="brand-title">Painel administrativo</div>
+        <div class="brand-subtitle">Controle central de eventos</div>
+      </div>
+    </div>
+
+    <nav class="sidebar-nav">
+      @for (item of navItems(); track item.route) {
+        <a
+          class="nav-item"
+          [routerLink]="item.route"
+          routerLinkActive="active"
+          (click)="closeSidebar()"
+        >
+          <span class="nav-icon"><i [class]="item.icon"></i></span>
+          <span class="nav-copy">
+            <span class="nav-label">{{ item.label }}</span>
+            <span class="nav-description">{{ item.description }}</span>
+          </span>
+          @if (item.badge) {
+            <span class="nav-badge">{{ item.badge }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="support-card">
+        <div class="support-label">Modo atual</div>
+        <div class="support-value">Painel legado</div>
+      </div>
+    </div>
+  </aside>
+
+  <div class="admin-main">
+    <header class="admin-topbar">
+      <button
+        type="button"
+        class="btn btn-outline-secondary d-lg-none"
+        aria-label="Abrir menu administrativo"
+        (click)="toggleSidebar()"
+      >
+        <i class="bi bi-list"></i>
+      </button>
+
+      <div class="topbar-copy">
+        <div class="eyebrow">Area administrativa</div>
+        <h1 class="page-title">Gestao e acompanhamento dos eventos</h1>
+      </div>
+
+      <div class="topbar-actions">
+        @if (currentProfile(); as profile) {
+          <div class="status-pill status-pill-user">
+            <span class="status-dot"></span>
+            {{ profile.username }} - {{ profile.perfilNome }}
+          </div>
+        } @else if (hasSession()) {
+          <div class="status-pill">
+            <span class="status-dot"></span>
+            Sessao ativa
+          </div>
+        } @else {
+          <a class="status-pill text-decoration-none" routerLink="/admin/acesso">
+            <span class="status-dot"></span>
+            Fazer acesso
+          </a>
+        }
+
+        <button class="btn btn-outline-secondary rounded-pill" type="button" (click)="logout()">
+          Encerrar sessao
+        </button>
+        <a class="btn btn-success rounded-pill" routerLink="/">Voltar ao site</a>
+      </div>
+    </header>
+
+    <main class="admin-content">
+      <router-outlet />
+    </main>
+  </div>
+</div>

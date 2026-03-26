@@ -1,0 +1,141 @@
+:host {
+  display: block;
+}
+
+.admin-page {
+  display: grid;
+  gap: 1rem;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 1rem;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--eco-primary);
+}
+
+.page-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.table-card,
+.panel-card {
+  background: #fff;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.table-card {
+  padding: 1rem;
+}
+
+.table thead th {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--eco-primary-dark);
+  border-bottom-width: 1px;
+}
+
+.table td {
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.badge.success {
+  background: rgba(46, 139, 87, 0.14);
+  color: #1d6e44;
+}
+
+.badge.warning {
+  background: rgba(255, 215, 0, 0.3);
+  color: #7a5b00;
+}
+
+.badge.secondary {
+  background: rgba(108, 117, 125, 0.14);
+  color: #4f5963;
+}
+
+.event-card-mobile {
+  padding: 1rem;
+  border-radius: 12px;
+  background: #f8faf8;
+  border: 1px solid rgba(46, 139, 87, 0.18);
+}
+
+.panel-card {
+  padding: 1.25rem;
+}
+
+.list-placeholder {
+  height: 64px;
+  border-radius: 12px;
+}
+
+.empty-state {
+  min-height: 240px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 28px;
+  border-radius: 14px;
+  background: rgba(46, 139, 87, 0.06);
+}
+
+.empty-state i {
+  font-size: 2.2rem;
+  color: var(--eco-primary);
+}
+
+.panel-card .form-control,
+.panel-card .form-select {
+  border-radius: 8px;
+}
+
+.panel-card .form-control:focus,
+.panel-card .form-select:focus {
+  border-color: var(--eco-primary);
+  box-shadow: 0 0 0 0.2rem rgba(46, 139, 87, 0.2);
+}
+
+.preview-image {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.file-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+@media (max-width: 767.98px) {
+  .page-header {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .page-actions {
+    display: grid;
+    grid-template-columns: 1fr;
+  }
+
+  .page-actions .btn {
+    width: 100%;
+  }
+}

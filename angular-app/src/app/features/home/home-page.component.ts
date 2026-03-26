@@ -53,7 +53,7 @@ export class HomePageComponent {
         },
         error: () => {
           this.errorMessage.set(
-            'Nao foi possivel carregar os eventos. Tente novamente em alguns instantes.'
+            'Não foi possível carregar os eventos. Tente novamente em alguns instantes.'
           );
           this.upcomingEvents.set([]);
           this.completedEvents.set([]);

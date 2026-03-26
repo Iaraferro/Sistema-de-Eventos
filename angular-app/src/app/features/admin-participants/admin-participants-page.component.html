@@ -1,0 +1,138 @@
+<section class="admin-page">
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">Participantes</span>
+      <h2 class="h3 fw-bold mt-2 mb-2">Referência operacional de usuários</h2>
+      <p class="text-muted mb-0">
+        O backend atual ainda não expõe inscritos por evento, então esta área usa a lista de usuários.
+      </p>
+    </div>
+
+    <div class="header-kpis">
+      <div class="mini-kpi">
+        <div class="mini-kpi-value">{{ totalUsuarios() }}</div>
+        <div class="mini-kpi-label">usuários totais</div>
+      </div>
+      <div class="mini-kpi">
+        <div class="mini-kpi-value">{{ totalAdmins() }}</div>
+        <div class="mini-kpi-label">admins</div>
+      </div>
+      <div class="mini-kpi">
+        <div class="mini-kpi-value">{{ totalOperacao() }}</div>
+        <div class="mini-kpi-label">operação</div>
+      </div>
+    </div>
+  </div>
+
+  @if (error(); as errorMessage) {
+    <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
+
+  <div class="row g-4">
+    <div class="col-12 col-xl-4">
+      <div class="panel-card h-100">
+        <div class="panel-title">Leitura atual da base</div>
+        <div class="segment-list mt-3">
+          <div class="segment-item">
+            <div class="segment-name">Usuários administrativos</div>
+            <span>{{ totalAdmins() }}</span>
+          </div>
+          <div class="segment-item">
+            <div class="segment-name">Perfis operacionais</div>
+            <span>{{ totalOperacao() }}</span>
+          </div>
+          <div class="segment-item">
+            <div class="segment-name">Busca ativa</div>
+            <span>{{ searchQuery() ? 'sim' : 'não' }}</span>
+          </div>
+        </div>
+        <div class="note-box mt-4">
+          <i class="bi bi-info-circle"></i>
+          <p class="mb-0">
+            Quando existir endpoint de inscrições por evento, esta seção pode ser especializada sem refazer o layout.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-8">
+      <div class="panel-card">
+        <div class="d-flex flex-wrap gap-3 justify-content-between align-items-center mb-3">
+          <div>
+            <h3 class="h5 fw-bold mb-1">Lista de usuários</h3>
+            <p class="text-muted mb-0">Dados reais retornados por `GET /usuarios`.</p>
+          </div>
+          <div class="search-shell">
+            <i class="bi bi-search"></i>
+            <input
+              type="text"
+              class="form-control border-0"
+              placeholder="Buscar usuário"
+              [value]="searchQuery()"
+              (input)="updateSearch(($any($event.target)).value)"
+            />
+          </div>
+        </div>
+
+        @if (loading()) {
+          <div class="placeholder-glow d-grid gap-3">
+            @for (item of [1, 2, 3]; track item) {
+              <span class="placeholder list-placeholder"></span>
+            }
+          </div>
+        } @else if (filteredParticipants().length === 0) {
+          <div class="participant-card">
+            <div class="fw-semibold">Nenhum usuário encontrado</div>
+            <div class="text-muted small">Ajuste a busca ou valide a resposta da API.</div>
+          </div>
+        } @else {
+          <div class="table-responsive d-none d-md-block">
+            <table class="table align-middle mb-0">
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>E-mail</th>
+                  <th>Perfil</th>
+                  <th class="text-end">Leitura</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (participant of filteredParticipants(); track participant.id) {
+                  <tr>
+                    <td class="fw-semibold">{{ participant.username }}</td>
+                    <td>{{ participant.email }}</td>
+                    <td>{{ participant.perfilNome }}</td>
+                    <td class="text-end">
+                      <span class="badge rounded-pill" [class]="badgeTone(participant)">
+                        {{ badgeLabel(participant) }}
+                      </span>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <div class="d-grid gap-3 d-md-none">
+            @for (participant of filteredParticipants(); track participant.id) {
+              <article class="participant-card">
+                <div class="d-flex justify-content-between gap-3">
+                  <div>
+                    <div class="fw-semibold">{{ participant.username }}</div>
+                    <div class="text-muted small">{{ participant.email }}</div>
+                  </div>
+                  <span class="badge rounded-pill" [class]="badgeTone(participant)">
+                    {{ badgeLabel(participant) }}
+                  </span>
+                </div>
+                <div class="mt-3 text-muted small">
+                  <div><i class="bi bi-person-badge me-2"></i>{{ participant.perfilNome }}</div>
+                </div>
+              </article>
+            }
+          </div>
+        }
+      </div>
+    </div>
+  </div>
+</section>

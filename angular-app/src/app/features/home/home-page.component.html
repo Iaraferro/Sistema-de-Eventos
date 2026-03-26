@@ -20,9 +20,9 @@
     <div class="row mb-4">
       <div class="col-12">
         <h2 class="section-title">
-          <i class="bi bi-leaf me-2"></i>Proximos Eventos
+          <i class="bi bi-leaf me-2"></i>Próximos Eventos
         </h2>
-        <p class="text-muted">Participe dos proximos eventos ambientais em Palmas.</p>
+        <p class="text-muted">Participe dos próximos eventos ambientais em Palmas.</p>
       </div>
     </div>
 
@@ -39,8 +39,8 @@
           </div>
         </div>
       } @else if (isLoading()) {
-        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
-          <div class="col-md-6 col-lg-3 mb-4">
+        @for (placeholder of [1, 2, 3]; track placeholder) {
+          <div class="col-md-6 col-lg-4 mb-4">
             <div class="card event-card h-100">
               <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
               <div class="card-body">
@@ -56,8 +56,8 @@
         <div class="col-12">
           <div class="content-state text-center">
             <i class="bi bi-calendar-x display-4 d-block mb-3"></i>
-            <h3 class="h4 mb-3">Nenhum proximo evento encontrado</h3>
-            <p class="text-muted mb-0">Aguardando novas acoes ambientais serem cadastradas.</p>
+            <h3 class="h4 mb-3">Nenhum próximo evento encontrado</h3>
+            <p class="text-muted mb-0">Aguardando novas ações ambientais serem cadastradas.</p>
           </div>
         </div>
       } @else {
@@ -76,7 +76,7 @@
         <h2 class="section-title">
           <i class="bi bi-check-circle me-2"></i>Eventos Realizados
         </h2>
-        <p class="text-muted">Confira os eventos ambientais que ja passaram pela comunidade.</p>
+        <p class="text-muted">Confira os eventos ambientais que já passaram pela comunidade.</p>
       </div>
     </div>
 
@@ -85,13 +85,13 @@
         <div class="col-12">
           <div class="content-state text-center">
             <i class="bi bi-exclamation-triangle display-4 d-block mb-3"></i>
-            <h3 class="h4 mb-3">Nao foi possivel carregar os eventos realizados</h3>
-            <p class="text-muted mb-0">A listagem sera exibida assim que a API voltar a responder.</p>
+            <h3 class="h4 mb-3">Não foi possível carregar os eventos realizados</h3>
+            <p class="text-muted mb-0">A listagem será exibida assim que a API voltar a responder.</p>
           </div>
         </div>
       } @else if (isLoading()) {
-        @for (placeholder of [1, 2, 3, 4]; track placeholder) {
-          <div class="col-md-6 col-lg-3 mb-4">
+        @for (placeholder of [1, 2, 3]; track placeholder) {
+          <div class="col-md-6 col-lg-4 mb-4">
             <div class="card event-card h-100">
               <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
               <div class="card-body">
@@ -107,8 +107,8 @@
         <div class="col-12">
           <div class="content-state text-center">
             <i class="bi bi-hourglass-split display-4 d-block mb-3"></i>
-            <h3 class="h4 mb-3">Nenhum evento concluido ainda</h3>
-            <p class="text-muted mb-0">Assim que os eventos forem finalizados, eles aparecerao aqui.</p>
+            <h3 class="h4 mb-3">Nenhum evento concluído ainda</h3>
+            <p class="text-muted mb-0">Assim que os eventos forem finalizados, eles aparecerão aqui.</p>
           </div>
         </div>
       } @else {

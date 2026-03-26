@@ -1,0 +1,224 @@
+<section class="admin-page">
+  <div class="page-header">
+    <div>
+      <span class="eyebrow">Configuracoes</span>
+      <h2 class="h3 fw-bold mt-2 mb-2">Preferencias e governanca</h2>
+      <p class="text-muted mb-0">Ajustes gerais para operacao, notificacoes e leitura do ambiente atual.</p>
+    </div>
+  </div>
+
+  @if (saveFeedback(); as feedback) {
+    <div
+      class="alert"
+      [class.alert-success]="saveAlertTone() === 'success'"
+      [class.alert-danger]="saveAlertTone() === 'danger'"
+      [class.alert-info]="saveAlertTone() === 'info'"
+    >
+      {{ feedback }}
+    </div>
+  }
+
+  @if (registerFeedback(); as feedback) {
+    <div
+      class="alert"
+      [class.alert-success]="registerAlertTone() === 'success'"
+      [class.alert-danger]="registerAlertTone() === 'danger'"
+      [class.alert-info]="registerAlertTone() === 'info'"
+    >
+      {{ feedback }}
+    </div>
+  }
+
+  <div class="row g-4">
+    <div class="col-12 col-xl-6">
+      <div class="settings-card">
+        <h3 class="h5 fw-bold mb-3">Geral</h3>
+        <form [formGroup]="settingsForm">
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Idioma padrao</div>
+              <div class="settings-help">Interface administrativa localizada para a equipe atual.</div>
+            </div>
+            <select class="form-select settings-select" formControlName="idioma">
+              <option value="pt-BR">PT-BR</option>
+              <option value="en-US">EN-US</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Fuso horario</div>
+              <div class="settings-help">Base para agenda, relatorios e leitura das datas do backend.</div>
+            </div>
+            <select class="form-select settings-select" formControlName="timezone">
+              <option value="America/Araguaina">America/Araguaina</option>
+              <option value="America/Manaus">America/Manaus</option>
+              <option value="America/Rio_Branco">America/Rio_Branco</option>
+            </select>
+          </div>
+          <div class="settings-row">
+            <div>
+              <div class="settings-label">Formato de data</div>
+              <div class="settings-help">Padrao usado na apresentacao administrativa.</div>
+            </div>
+            <select class="form-select settings-select" formControlName="formatoData">
+              <option value="DD/MM/AAAA">DD/MM/AAAA</option>
+              <option value="MM/DD/AAAA">MM/DD/AAAA</option>
+              <option value="AAAA-MM-DD">AAAA-MM-DD</option>
+            </select>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-6">
+      <div class="settings-card">
+        <h3 class="h5 fw-bold mb-3">Notificacoes</h3>
+        <form [formGroup]="settingsForm">
+          <div class="toggle-row">
+            <div>
+              <div class="settings-label">E-mail para novos eventos</div>
+              <div class="settings-help">Envios automaticos para a equipe administrativa.</div>
+            </div>
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" formControlName="alertasEmail" />
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="settings-label">Alertas de novos eventos</div>
+              <div class="settings-help">Avisos no fluxo de cadastro e atualizacao dos eventos.</div>
+            </div>
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" formControlName="avisarNovosEventos" />
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div>
+              <div class="settings-label">Alertas de participantes</div>
+              <div class="settings-help">Util enquanto a area usa `GET /usuarios` como referencia operacional.</div>
+            </div>
+            <div class="form-check form-switch m-0">
+              <input class="form-check-input" type="checkbox" formControlName="avisarParticipantes" />
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-5">
+      <div class="settings-card h-100">
+        <h3 class="h5 fw-bold mb-3">Leitura do ambiente</h3>
+        <div class="security-grid">
+          <div class="security-item">
+            <i class="bi bi-cloud"></i>
+            <div>
+              <div class="settings-label">API base</div>
+              <div class="settings-help">{{ apiBaseUrl() }}</div>
+            </div>
+          </div>
+          <div class="security-item">
+            <i class="bi bi-shield-lock"></i>
+            <div>
+              <div class="settings-label">Token local</div>
+              <div class="settings-help">Sessao administrativa ativa: {{ tokenAtivo() }}</div>
+            </div>
+          </div>
+          <div class="security-item">
+            <i class="bi bi-person-badge"></i>
+            <div>
+              <div class="settings-label">Perfil atual</div>
+              <div class="settings-help">
+                {{ profile()?.username ?? 'nao sincronizado' }} - {{ profile()?.perfilNome ?? 'sem perfil' }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-7">
+      <div class="settings-card h-100">
+        <h3 class="h5 fw-bold mb-3">Acoes administrativas</h3>
+        <div class="action-list">
+          <button type="button" class="btn btn-outline-secondary rounded-pill" (click)="savePreferences()">
+            <i class="bi bi-arrow-clockwise me-2"></i>Sincronizar preferencias
+          </button>
+          <button type="button" class="btn btn-outline-secondary rounded-pill" (click)="savePreferences()">
+            <i class="bi bi-file-earmark-text me-2"></i>Registrar checkpoint
+          </button>
+          <button type="button" class="btn btn-success rounded-pill" (click)="savePreferences()">
+            <i class="bi bi-save me-2"></i>Salvar ajustes
+          </button>
+        </div>
+        <div class="notice-box mt-4">
+          <i class="bi bi-lightbulb"></i>
+          <p class="mb-0">
+            Guards, JWT e endurecimento de sessao ja foram reimplantados no fluxo administrativo.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12">
+      <div class="settings-card">
+        <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+          <div>
+            <h3 class="h5 fw-bold mb-1">Cadastro de administrador</h3>
+            <p class="text-muted mb-0">
+              Somente um administrador autenticado pode cadastrar outro administrador.
+            </p>
+          </div>
+          <div class="admin-badge">
+            <i class="bi bi-person-lock me-2"></i>
+            {{ profile()?.username ?? 'admin' }}
+          </div>
+        </div>
+
+        <form class="row g-3" [formGroup]="registerForm" (ngSubmit)="registerAdmin()">
+          <div class="col-12 col-lg-6">
+            <label class="form-label" for="register-name">Nome</label>
+            <input id="register-name" class="form-control" type="text" formControlName="nome">
+          </div>
+
+          <div class="col-12 col-lg-6">
+            <label class="form-label" for="register-email">E-mail</label>
+            <input id="register-email" class="form-control" type="email" formControlName="email">
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <label class="form-label" for="register-profile">Perfil</label>
+            <select id="register-profile" class="form-select" formControlName="idPerfil">
+              <option [ngValue]="1">Adm</option>
+            </select>
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <label class="form-label" for="register-username">Username (opcional)</label>
+            <input
+              id="register-username"
+              class="form-control"
+              type="text"
+              formControlName="username"
+            >
+          </div>
+
+          <div class="col-12 col-lg-4">
+            <label class="form-label" for="register-password">Senha</label>
+            <input
+              id="register-password"
+              class="form-control"
+              type="password"
+              formControlName="senha"
+            >
+          </div>
+
+          <div class="col-12">
+            <button type="submit" class="btn btn-success rounded-pill" [disabled]="registerPending()">
+              {{ registerPending() ? 'Cadastrando...' : 'Cadastrar administrador' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>

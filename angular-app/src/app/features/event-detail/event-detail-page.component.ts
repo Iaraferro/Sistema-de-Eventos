@@ -32,7 +32,7 @@ export class EventDetailPageComponent {
         switchMap((id) => {
           if (!Number.isInteger(id) || id <= 0) {
             this.isLoading.set(false);
-            this.errorMessage.set('Evento nao encontrado.');
+            this.errorMessage.set('Evento não encontrado.');
             this.event.set(null);
             return EMPTY;
           }
@@ -43,7 +43,7 @@ export class EventDetailPageComponent {
           return this.eventosApiService.getPublicEventDetail(id).pipe(
             catchError(() => {
               this.isLoading.set(false);
-              this.errorMessage.set('Evento nao encontrado ou indisponivel.');
+              this.errorMessage.set('Evento não encontrado ou indisponível.');
               this.event.set(null);
               return EMPTY;
             })

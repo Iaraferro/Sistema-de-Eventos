@@ -25,20 +25,15 @@
             routerLinkActive="active"
             [routerLinkActiveOptions]="{ exact: true }"
           >
-            Inicio
+            Início
           </a>
         </li>
         <li class="nav-item">
           <a class="nav-link" routerLink="/" fragment="eventos">Eventos</a>
         </li>
         <li class="nav-item ms-lg-2 mt-2 mt-lg-0">
-          <a
-            class="btn btn-outline-light btn-sm rounded-pill px-3"
-            href="/legacy/cadastro-admin.html"
-            target="_blank"
-            rel="noreferrer"
-          >
-            Cadastro Admin Legado
+          <a class="btn btn-outline-light btn-sm rounded-pill px-3" routerLink="/admin/acesso">
+            Acesso administrativo
           </a>
         </li>
       </ul>
@@ -54,8 +49,8 @@
   <div class="container text-center">
     <p class="mb-1">&copy; {{ currentYear }} EcoEventos Palmas - Todos os direitos reservados</p>
     <small class="footer-note">
-      Fase publica migrada para Angular 21. A area administrativa permanece no legado ate a
-      validacao.
+      Áreas pública e administrativa em Angular 21. JWT e guards entram só após a validação
+      manual.
     </small>
   </div>
 </footer>
