@@ -7,7 +7,7 @@ import { UsuariosAdminService } from '../../core/services/usuarios-admin.service
 @Component({
   selector: 'app-admin-participants-page',
   templateUrl: './admin-participants-page.component.html',
-  styleUrl: './admin-participants-page.component.css'
+  styleUrl: './admin-participants-page.component.css',
 })
 export class AdminParticipantsPageComponent {
   private readonly usuariosAdminService = inject(UsuariosAdminService);
@@ -27,17 +27,16 @@ export class AdminParticipantsPageComponent {
     }
 
     return usuarios.filter((usuario) =>
-      [usuario.username, usuario.email, usuario.perfilNome]
-        .join(' ')
-        .toLowerCase()
-        .includes(query)
+      [usuario.username, usuario.email, usuario.perfilNome].join(' ').toLowerCase().includes(query),
     );
   });
 
   readonly totalUsuarios = computed(() => this.usuarios().length);
-  readonly totalAdmins = computed(() => this.usuarios().filter((usuario) => usuario.isAdmin).length);
+  readonly totalAdmins = computed(
+    () => this.usuarios().filter((usuario) => usuario.isAdmin).length,
+  );
   readonly totalOperacao = computed(
-    () => this.usuarios().filter((usuario) => !usuario.isAdmin).length
+    () => this.usuarios().filter((usuario) => !usuario.isAdmin).length,
   );
 
   constructor() {
@@ -68,15 +67,15 @@ export class AdminParticipantsPageComponent {
       .listUsuariosVm()
       .pipe(
         finalize(() => this.loading.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (usuarios) => this.usuarios.set(usuarios),
         error: () => {
           this.error.set(
-            'Não foi possível carregar os usuários usados como referência operacional.'
+            'Não foi possível carregar os usuários usados como referência operacional.',
           );
-        }
+        },
       });
   }
 }

@@ -27,14 +27,14 @@ export class EventosApiService {
       map((eventos) =>
         eventos
           .map((evento) => mapApiEventoToCardVm(evento, this.apiClient.getBaseUrl()))
-          .sort((current, next) => current.timestamp - next.timestamp)
-      )
+          .sort((current, next) => current.timestamp - next.timestamp),
+      ),
     );
   }
 
   getPublicEventDetail(id: number): Observable<EventoDetailVm> {
     return this.getEventoById(id).pipe(
-      map((evento) => mapApiEventoToDetailVm(evento, this.apiClient.getBaseUrl()))
+      map((evento) => mapApiEventoToDetailVm(evento, this.apiClient.getBaseUrl())),
     );
   }
 }
@@ -110,7 +110,7 @@ function unwrapSingleEventoResponse(response: unknown): unknown {
 function normalizeApiEvento(value: unknown): ApiEvento {
   const record = isRecord(value) ? value : {};
   const arquivos = normalizeArquivos(
-    record['arquivos'] ?? record['arquivo'] ?? record['files'] ?? record['anexos']
+    record['arquivos'] ?? record['arquivo'] ?? record['files'] ?? record['anexos'],
   );
 
   return {
@@ -118,10 +118,10 @@ function normalizeApiEvento(value: unknown): ApiEvento {
     nome: toStringOrNull(record['nome'] ?? record['titulo'] ?? record['name']),
     descricao: toStringOrNull(record['descricao'] ?? record['description']),
     dataHora: toStringOrNull(
-      record['dataHora'] ?? record['data_hora'] ?? record['dataEvento'] ?? record['data']
+      record['dataHora'] ?? record['data_hora'] ?? record['dataEvento'] ?? record['data'],
     ),
     local: toStringOrNull(record['local'] ?? record['endereco'] ?? record['location']),
-    arquivos
+    arquivos,
   };
 }
 

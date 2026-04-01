@@ -6,7 +6,7 @@ import {
   formatDisplayDate,
   formatDisplayTime,
   normalizeDateTimeValue,
-  resolveEventImageUrl
+  resolveEventImageUrl,
 } from './evento.mapper';
 
 export function mapApiEventoToAdminVm(evento: ApiEvento, apiBaseUrl: string): EventoAdminVm {
@@ -24,18 +24,21 @@ export function mapApiEventoToAdminVm(evento: ApiEvento, apiBaseUrl: string): Ev
     imagem: resolveEventImageUrl(evento, apiBaseUrl),
     arquivos: [...(evento.arquivos ?? [])],
     estado,
-    estadoLabel: resolveStateLabel(estado)
+    estadoLabel: resolveStateLabel(estado),
   };
 }
 
 export function mapApiEventoListToAdminVmList(
   eventos: ApiEvento[],
-  apiBaseUrl: string
+  apiBaseUrl: string,
 ): EventoAdminVm[] {
   return eventos.map((evento) => mapApiEventoToAdminVm(evento, apiBaseUrl));
 }
 
-export function mapApiEventoToAdminForm(evento: ApiEvento, apiBaseUrl: string): EventoAdminFormModel {
+export function mapApiEventoToAdminForm(
+  evento: ApiEvento,
+  apiBaseUrl: string,
+): EventoAdminFormModel {
   const data = normalizeDateTimeValue(evento.dataHora);
   const firstArquivo = evento.arquivos?.find((arquivo) => !!arquivo?.trim()) ?? '';
 
@@ -44,7 +47,9 @@ export function mapApiEventoToAdminForm(evento: ApiEvento, apiBaseUrl: string): 
     titulo: normalizeText(evento.nome, ''),
     descricao: normalizeText(evento.descricao, ''),
     data: data ? formatDateInputValue(data) : '',
-    hora: data ? `${String(data.getHours()).padStart(2, '0')}:${String(data.getMinutes()).padStart(2, '0')}` : '10:00',
+    hora: data
+      ? `${String(data.getHours()).padStart(2, '0')}:${String(data.getMinutes()).padStart(2, '0')}`
+      : '10:00',
     local: normalizeText(evento.local, ''),
     categoria: 'Evento institucional',
     organizador: 'admin',
@@ -53,7 +58,7 @@ export function mapApiEventoToAdminForm(evento: ApiEvento, apiBaseUrl: string): 
     participantes: 0,
     status: 'ativo',
     imagem: firstArquivo,
-    arquivos: [...(evento.arquivos ?? [])]
+    arquivos: [...(evento.arquivos ?? [])],
   };
 }
 
@@ -67,7 +72,7 @@ export function mapAdminFormToApiEvento(form: EventoAdminFormModel): ApiEvento {
     descricao: form.descricao.trim(),
     dataHora: safeDate ? `${safeDate}T${safeHour}:00` : null,
     local: form.local.trim(),
-    arquivos: [...form.arquivos]
+    arquivos: [...form.arquivos],
   };
 }
 

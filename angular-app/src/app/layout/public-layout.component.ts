@@ -5,7 +5,7 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
   selector: 'app-public-layout',
   imports: [RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './public-layout.component.html',
-  styleUrl: './public-layout.component.css'
+  styleUrl: './public-layout.component.css',
 })
 export class PublicLayoutComponent {
   readonly currentYear = new Date().getFullYear();

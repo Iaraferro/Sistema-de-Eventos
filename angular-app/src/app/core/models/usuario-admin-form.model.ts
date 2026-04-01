@@ -5,4 +5,3 @@ export interface UsuarioAdminFormModel {
   senha: string;
   idPerfil: number | null;
 }
-

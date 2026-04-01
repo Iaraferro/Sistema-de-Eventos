@@ -3,8 +3,8 @@
     <div class="hero-content">
       <h1 class="display-4 fw-bold">Juntos por uma Palmas mais verde</h1>
       <p class="lead">
-        Participe de eventos ambientais e acompanhe as proximas acoes que fortalecem a
-        preservacao da nossa cidade.
+        Participe de eventos ambientais e acompanhe as proximas acoes que fortalecem a preservacao
+        da nossa cidade.
       </p>
       <div class="hero-actions">
         <a class="btn btn-light btn-lg rounded-pill px-4" routerLink="/" fragment="eventos">
@@ -19,9 +19,7 @@
   <div class="container">
     <div class="row mb-4">
       <div class="col-12">
-        <h2 class="section-title">
-          <i class="bi bi-leaf me-2"></i>Próximos Eventos
-        </h2>
+        <h2 class="section-title"><i class="bi bi-leaf me-2"></i>Próximos Eventos</h2>
         <p class="text-muted">Participe dos próximos eventos ambientais em Palmas.</p>
       </div>
     </div>
@@ -42,12 +40,12 @@
         @for (placeholder of [1, 2, 3]; track placeholder) {
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card event-card h-100">
-              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
+              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0"></div>
               <div class="card-body">
-                <div class="card-skeleton mb-3" style="height: 20px; width: 80%;"></div>
-                <div class="card-skeleton mb-3" style="height: 16px; width: 60%;"></div>
-                <div class="card-skeleton mb-2" style="height: 14px; width: 92%;"></div>
-                <div class="card-skeleton" style="height: 14px; width: 72%;"></div>
+                <div class="card-skeleton mb-3" style="height: 20px; width: 80%"></div>
+                <div class="card-skeleton mb-3" style="height: 16px; width: 60%"></div>
+                <div class="card-skeleton mb-2" style="height: 14px; width: 92%"></div>
+                <div class="card-skeleton" style="height: 14px; width: 72%"></div>
               </div>
             </div>
           </div>
@@ -73,9 +71,7 @@
   <div class="container">
     <div class="row mb-4">
       <div class="col-12">
-        <h2 class="section-title">
-          <i class="bi bi-check-circle me-2"></i>Eventos Realizados
-        </h2>
+        <h2 class="section-title"><i class="bi bi-check-circle me-2"></i>Eventos Realizados</h2>
         <p class="text-muted">Confira os eventos ambientais que já passaram pela comunidade.</p>
       </div>
     </div>
@@ -86,19 +82,21 @@
           <div class="content-state text-center">
             <i class="bi bi-exclamation-triangle display-4 d-block mb-3"></i>
             <h3 class="h4 mb-3">Não foi possível carregar os eventos realizados</h3>
-            <p class="text-muted mb-0">A listagem será exibida assim que a API voltar a responder.</p>
+            <p class="text-muted mb-0">
+              A listagem será exibida assim que a API voltar a responder.
+            </p>
           </div>
         </div>
       } @else if (isLoading()) {
         @for (placeholder of [1, 2, 3]; track placeholder) {
           <div class="col-md-6 col-lg-4 mb-4">
             <div class="card event-card h-100">
-              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0;"></div>
+              <div class="card-skeleton" style="height: 200px; border-radius: 12px 12px 0 0"></div>
               <div class="card-body">
-                <div class="card-skeleton mb-3" style="height: 20px; width: 80%;"></div>
-                <div class="card-skeleton mb-3" style="height: 16px; width: 60%;"></div>
-                <div class="card-skeleton mb-2" style="height: 14px; width: 92%;"></div>
-                <div class="card-skeleton" style="height: 14px; width: 72%;"></div>
+                <div class="card-skeleton mb-3" style="height: 20px; width: 80%"></div>
+                <div class="card-skeleton mb-3" style="height: 16px; width: 60%"></div>
+                <div class="card-skeleton mb-2" style="height: 14px; width: 92%"></div>
+                <div class="card-skeleton" style="height: 14px; width: 72%"></div>
               </div>
             </div>
           </div>
@@ -108,7 +106,9 @@
           <div class="content-state text-center">
             <i class="bi bi-hourglass-split display-4 d-block mb-3"></i>
             <h3 class="h4 mb-3">Nenhum evento concluído ainda</h3>
-            <p class="text-muted mb-0">Assim que os eventos forem finalizados, eles aparecerão aqui.</p>
+            <p class="text-muted mb-0">
+              Assim que os eventos forem finalizados, eles aparecerão aqui.
+            </p>
           </div>
         </div>
       } @else {

@@ -18,7 +18,7 @@ interface ReportCard {
   selector: 'app-admin-reports-page',
   imports: [ReactiveFormsModule],
   templateUrl: './admin-reports-page.component.html',
-  styleUrl: './admin-reports-page.component.css'
+  styleUrl: './admin-reports-page.component.css',
 })
 export class AdminReportsPageComponent {
   private readonly formBuilder = inject(FormBuilder);
@@ -34,7 +34,7 @@ export class AdminReportsPageComponent {
 
   readonly reportForm = this.formBuilder.nonNullable.group({
     titulo: ['Relatório operacional do admin', [Validators.required, Validators.minLength(4)]],
-    resumo: ['', [Validators.required, Validators.minLength(10)]]
+    resumo: ['', [Validators.required, Validators.minLength(10)]],
   });
 
   readonly reports = computed<ReportCard[]>(() => [
@@ -42,26 +42,26 @@ export class AdminReportsPageComponent {
       title: 'Eventos totais',
       value: String(this.eventos().length),
       helper: 'Dados vindos de GET /eventos',
-      tone: 'success'
+      tone: 'success',
     },
     {
       title: 'Perfis admin',
       value: String(this.usuarios().filter((usuario) => usuario.isAdmin).length),
       helper: 'Leitura de GET /usuarios',
-      tone: 'primary'
+      tone: 'primary',
     },
     {
       title: 'Eventos futuros',
       value: String(this.eventos().filter((evento) => evento.estado !== 'past').length),
       helper: 'Agenda usada no dashboard',
-      tone: 'info'
+      tone: 'info',
     },
     {
       title: 'Alertas',
       value: this.eventos().length === 0 ? '1' : '0',
       helper: this.eventos().length === 0 ? 'Nenhum evento cadastrado' : 'Sem alertas críticos',
-      tone: 'warning'
-    }
+      tone: 'warning',
+    },
   ]);
 
   constructor() {
@@ -74,10 +74,13 @@ export class AdminReportsPageComponent {
       `Resumo: ${this.reportForm.controls.resumo.value}`,
       `Eventos totais: ${this.eventos().length}`,
       `Usuários totais: ${this.usuarios().length}`,
-      `Eventos futuros: ${this.eventos().filter((evento) => evento.estado !== 'past').length}`
+      `Eventos futuros: ${this.eventos().filter((evento) => evento.estado !== 'past').length}`,
     ].join('\n');
 
-    this.downloadBlob('relatorio-admin.txt', new Blob([payload], { type: 'text/plain;charset=utf-8' }));
+    this.downloadBlob(
+      'relatorio-admin.txt',
+      new Blob([payload], { type: 'text/plain;charset=utf-8' }),
+    );
     this.exportFeedback.set('Resumo exportado em TXT com base nos dados atuais da API.');
   }
 
@@ -86,14 +89,14 @@ export class AdminReportsPageComponent {
       titulo: this.reportForm.controls.titulo.value,
       resumo: this.reportForm.controls.resumo.value,
       eventos: this.eventos(),
-      usuarios: this.usuarios()
+      usuarios: this.usuarios(),
     };
 
     this.downloadBlob(
       'relatorio-admin.json',
-      new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' })
+      new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json;charset=utf-8' }),
     );
-    this.exportFeedback.set('Dados exportados em JSON para validação manual.');
+    this.exportFeedback.set('Dados exportados em JSON para analise local.');
   }
 
   private loadData(): void {
@@ -102,23 +105,23 @@ export class AdminReportsPageComponent {
 
     forkJoin({
       eventos: this.eventosAdminService.listEventosVm(),
-      usuarios: this.usuariosAdminService.listUsuariosVm()
+      usuarios: this.usuariosAdminService.listUsuariosVm(),
     })
       .pipe(
         finalize(() => this.loading.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: ({ eventos, usuarios }) => {
           this.eventos.set(eventos);
           this.usuarios.set(usuarios);
           this.reportForm.patchValue({
-            resumo: `Base atual com ${eventos.length} eventos e ${usuarios.length} usuários sincronizados.`
+            resumo: `Base atual com ${eventos.length} eventos e ${usuarios.length} usuários sincronizados.`,
           });
         },
         error: () => {
           this.error.set('Não foi possível consolidar os dados para os relatórios.');
-        }
+        },
       });
   }
 

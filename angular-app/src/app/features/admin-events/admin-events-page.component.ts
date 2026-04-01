@@ -12,7 +12,7 @@ import { EventosAdminService } from '../../core/services/eventos-admin.service';
   selector: 'app-admin-events-page',
   imports: [ReactiveFormsModule],
   templateUrl: './admin-events-page.component.html',
-  styleUrl: './admin-events-page.component.css'
+  styleUrl: './admin-events-page.component.css',
 })
 export class AdminEventsPageComponent {
   private readonly formBuilder = inject(FormBuilder);
@@ -42,9 +42,9 @@ export class AdminEventsPageComponent {
     participantes: [0],
     status: this.formBuilder.control<EventoAdminStatus>('ativo', {
       nonNullable: true,
-      validators: [Validators.required]
+      validators: [Validators.required],
     }),
-    imagem: ['']
+    imagem: [''],
   });
 
   constructor() {
@@ -59,15 +59,15 @@ export class AdminEventsPageComponent {
       .listEventosVm()
       .pipe(
         finalize(() => this.loading.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (eventos) => this.eventos.set(eventos),
         error: (error) => {
           this.error.set(
-            resolveErrorMessage(error, 'Nao foi possivel carregar os eventos administrativos.')
+            resolveErrorMessage(error, 'Nao foi possivel carregar os eventos administrativos.'),
           );
-        }
+        },
       });
   }
 
@@ -88,7 +88,7 @@ export class AdminEventsPageComponent {
       requisitos: '',
       participantes: 0,
       status: 'ativo',
-      imagem: ''
+      imagem: '',
     });
   }
 
@@ -113,14 +113,18 @@ export class AdminEventsPageComponent {
             requisitos: form.requisitos,
             participantes: form.participantes,
             status: form.status,
-            imagem: form.imagem
+            imagem: form.imagem,
           });
           this.selectedFile.set(null);
-          this.previewUrl.set(form.imagem ? this.arquivosAdminService.resolveArquivoUrl(form.imagem) : null);
+          this.previewUrl.set(
+            form.imagem ? this.arquivosAdminService.resolveArquivoUrl(form.imagem) : null,
+          );
         },
         error: (error) => {
-          this.feedback.set(resolveErrorMessage(error, 'Nao foi possivel preparar a edicao do evento.'));
-        }
+          this.feedback.set(
+            resolveErrorMessage(error, 'Nao foi possivel preparar a edicao do evento.'),
+          );
+        },
       });
   }
 
@@ -139,70 +143,73 @@ export class AdminEventsPageComponent {
     const arquivosAtuais =
       this.editingEventId() === null
         ? []
-        : this.eventos().find((evento) => evento.id === this.editingEventId())?.arquivos ?? [];
+        : (this.eventos().find((evento) => evento.id === this.editingEventId())?.arquivos ?? []);
 
-    const request$ = (file
-      ? this.arquivosAdminService.uploadArquivo(file).pipe(
-          switchMap((nomeSalvo) =>
-            of<EventoAdminFormModel>({
-              id: this.editingEventId() ?? undefined,
-              titulo: value.titulo.trim(),
-              descricao: value.descricao.trim(),
-              data: value.data,
-              hora: value.hora || '10:00',
-              local: value.local.trim(),
-              categoria: value.categoria,
-              organizador: value.organizador,
-              contato: value.contato,
-              requisitos: value.requisitos,
-              participantes: Number(value.participantes) || 0,
-              status: value.status,
-              imagem: nomeSalvo,
-              arquivos: [nomeSalvo, ...arquivosAtuais.filter((arquivo) => arquivo !== nomeSalvo)]
-            })
+    const request$ = (
+      file
+        ? this.arquivosAdminService.uploadArquivo(file).pipe(
+            switchMap((nomeSalvo) =>
+              of<EventoAdminFormModel>({
+                id: this.editingEventId() ?? undefined,
+                titulo: value.titulo.trim(),
+                descricao: value.descricao.trim(),
+                data: value.data,
+                hora: value.hora || '10:00',
+                local: value.local.trim(),
+                categoria: value.categoria,
+                organizador: value.organizador,
+                contato: value.contato,
+                requisitos: value.requisitos,
+                participantes: Number(value.participantes) || 0,
+                status: value.status,
+                imagem: nomeSalvo,
+                arquivos: [nomeSalvo, ...arquivosAtuais.filter((arquivo) => arquivo !== nomeSalvo)],
+              }),
+            ),
           )
-        )
-      : of<EventoAdminFormModel>({
-          id: this.editingEventId() ?? undefined,
-          titulo: value.titulo.trim(),
-          descricao: value.descricao.trim(),
-          data: value.data,
-          hora: value.hora || '10:00',
-          local: value.local.trim(),
-          categoria: value.categoria,
-          organizador: value.organizador,
-          contato: value.contato,
-          requisitos: value.requisitos,
-          participantes: Number(value.participantes) || 0,
-          status: value.status,
-          imagem: value.imagem,
-          arquivos: value.imagem
-            ? [value.imagem, ...arquivosAtuais.filter((arquivo) => arquivo !== value.imagem)]
-            : arquivosAtuais
-        }))
-      .pipe(
-        switchMap((payload) =>
-          this.editingEventId()
-            ? this.eventosAdminService.updateEvento(this.editingEventId()!, payload)
-            : this.eventosAdminService.createEvento(payload)
-        )
-      );
+        : of<EventoAdminFormModel>({
+            id: this.editingEventId() ?? undefined,
+            titulo: value.titulo.trim(),
+            descricao: value.descricao.trim(),
+            data: value.data,
+            hora: value.hora || '10:00',
+            local: value.local.trim(),
+            categoria: value.categoria,
+            organizador: value.organizador,
+            contato: value.contato,
+            requisitos: value.requisitos,
+            participantes: Number(value.participantes) || 0,
+            status: value.status,
+            imagem: value.imagem,
+            arquivos: value.imagem
+              ? [value.imagem, ...arquivosAtuais.filter((arquivo) => arquivo !== value.imagem)]
+              : arquivosAtuais,
+          })
+    ).pipe(
+      switchMap((payload) =>
+        this.editingEventId()
+          ? this.eventosAdminService.updateEvento(this.editingEventId()!, payload)
+          : this.eventosAdminService.createEvento(payload),
+      ),
+    );
 
     request$
       .pipe(
         finalize(() => this.saving.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: () => {
           const editing = this.editingEventId() !== null;
-          this.feedback.set(editing ? 'Evento atualizado com sucesso.' : 'Evento criado com sucesso.');
+          this.feedback.set(
+            editing ? 'Evento atualizado com sucesso.' : 'Evento criado com sucesso.',
+          );
           this.startCreate();
           this.loadEventos();
         },
         error: (error) => {
           this.feedback.set(resolveErrorMessage(error, 'Nao foi possivel salvar o evento.'));
-        }
+        },
       });
   }
 
@@ -226,7 +233,7 @@ export class AdminEventsPageComponent {
         },
         error: (error) => {
           this.feedback.set(resolveErrorMessage(error, 'Nao foi possivel excluir o evento.'));
-        }
+        },
       });
   }
 
@@ -255,7 +262,7 @@ export class AdminEventsPageComponent {
           anchor.download = fileName;
           anchor.click();
           URL.revokeObjectURL(url);
-        }
+        },
       });
   }
 

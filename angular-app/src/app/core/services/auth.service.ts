@@ -8,7 +8,7 @@ import { UsuarioAdminVm } from '../models/usuario-admin-vm.model';
 import { ApiClientService } from './api-client.service';
 
 @Injectable({ providedIn: 'root' })
-export class AuthDevService {
+export class AuthService {
   private readonly apiClient = inject(ApiClientService);
   private readonly router = inject(Router);
 
@@ -23,7 +23,7 @@ export class AuthDevService {
 
         return normalized;
       }),
-      tap((token) => this.apiClient.setToken(token))
+      tap((token) => this.apiClient.setToken(token)),
     );
   }
 
@@ -62,12 +62,12 @@ export class AuthDevService {
     return this.getTokenGroups().includes('ADM');
   }
 
-  getPerfilDev(): Observable<ApiUsuarioResponse> {
+  getProfile(): Observable<ApiUsuarioResponse> {
     return this.apiClient.get<ApiUsuarioResponse>('/usuarios/perfil', { auth: true });
   }
 
-  getPerfilDevVm(): Observable<UsuarioAdminVm> {
-    return this.getPerfilDev().pipe(map(mapApiUsuarioResponseToVm));
+  getProfileVm(): Observable<UsuarioAdminVm> {
+    return this.getProfile().pipe(map(mapApiUsuarioResponseToVm));
   }
 
   private getTokenPayload(): JwtPayload | null {
@@ -85,7 +85,7 @@ export class AuthDevService {
       const normalizedPayload = segments[1].replace(/-/g, '+').replace(/_/g, '/');
       const paddedPayload = normalizedPayload.padEnd(
         normalizedPayload.length + ((4 - (normalizedPayload.length % 4)) % 4),
-        '='
+        '=',
       );
 
       return JSON.parse(atob(paddedPayload)) as JwtPayload;

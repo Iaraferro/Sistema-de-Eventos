@@ -5,4 +5,3 @@ export interface ApiUsuario {
   senha: string;
   id_perfil: number | null;
 }
-

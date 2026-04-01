@@ -1,9 +1,11 @@
 <section class="admin-page">
   <div class="page-header">
     <div>
-      <span class="eyebrow">Relatórios</span>
-      <h2 class="h3 fw-bold mt-2 mb-2">Indicadores e exportação</h2>
-      <p class="text-muted mb-0">Leituras rápidas para apoiar decisões e checkpoint manual do admin.</p>
+      <span class="eyebrow">Relatorios</span>
+      <h2 class="h3 fw-bold mt-2 mb-2">Indicadores e exportacao</h2>
+      <p class="text-muted mb-0">
+        Leituras rapidas para apoiar decisoes e checkpoints operacionais.
+      </p>
     </div>
 
     <div class="page-actions">
@@ -45,15 +47,15 @@
         <div class="d-flex justify-content-between gap-3 align-items-center mb-3">
           <div>
             <h3 class="h5 fw-bold mb-1">Resumo administrativo</h3>
-            <p class="text-muted mb-0">Texto livre para complementar a validação do ciclo atual.</p>
+            <p class="text-muted mb-0">Texto livre para complementar a leitura do ciclo atual.</p>
           </div>
           <span class="panel-chip">Dados atuais</span>
         </div>
 
         <form [formGroup]="reportForm" class="d-grid gap-3">
           <div>
-            <label class="form-label">Título</label>
-            <input class="form-control" type="text" formControlName="titulo">
+            <label class="form-label">Titulo</label>
+            <input class="form-control" type="text" formControlName="titulo" />
           </div>
           <div>
             <label class="form-label">Resumo</label>
@@ -65,27 +67,31 @@
 
     <div class="col-12 col-xl-5">
       <div class="panel-card h-100">
-        <h3 class="h5 fw-bold mb-3">Ações rápidas</h3>
+        <h3 class="h5 fw-bold mb-3">Acoes rapidas</h3>
         <div class="quick-list">
           <div class="quick-item">
             <i class="bi bi-file-earmark-arrow-down"></i>
             <div>
               <div class="fw-semibold">Gerar TXT consolidado</div>
-              <div class="text-muted small">Resumo simples para conferência local.</div>
+              <div class="text-muted small">Resumo simples para conferencia local.</div>
             </div>
           </div>
           <div class="quick-item">
             <i class="bi bi-filetype-json"></i>
             <div>
               <div class="fw-semibold">Exportar JSON</div>
-              <div class="text-muted small">Base para revisão e apoio ao merge posterior.</div>
+              <div class="text-muted small">
+                Base para revisao, auditoria e conferencias tecnicas.
+              </div>
             </div>
           </div>
           <div class="quick-item">
             <i class="bi bi-info-circle"></i>
             <div>
-              <div class="fw-semibold">Revisão manual</div>
-              <div class="text-muted small">JWT e guards ficam para a próxima etapa, após seu aceite.</div>
+              <div class="fw-semibold">Revisao operacional</div>
+              <div class="text-muted small">
+                Consolide evidencias e acompanhe a evolucao da base atual.
+              </div>
             </div>
           </div>
         </div>

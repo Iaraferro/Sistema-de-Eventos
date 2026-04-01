@@ -13,4 +13,3 @@ export interface EventoAdminVm {
   estado: EventoAdminState;
   estadoLabel: string;
 }
-

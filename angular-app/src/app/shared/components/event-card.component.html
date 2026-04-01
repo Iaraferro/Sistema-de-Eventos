@@ -4,7 +4,7 @@
   [attr.aria-label]="event().ariaLabel"
 >
   <div class="event-image-container">
-    <img [src]="event().imageUrl" class="card-img-top event-image" [alt]="event().title">
+    <img [src]="event().imageUrl" class="card-img-top event-image" [alt]="event().title" />
     <span class="badge status-badge" [class]="event().statusBadgeClass">
       {{ event().statusLabel }}
     </span>
@@ -32,9 +32,7 @@
         <span class="text-truncate">
           <i class="bi bi-geo-alt me-1"></i>{{ event().location }}
         </span>
-        <span>
-          <i class="bi bi-arrow-right-circle me-1"></i>Detalhes
-        </span>
+        <span> <i class="bi bi-arrow-right-circle me-1"></i>Detalhes </span>
       </div>
     </div>
   </div>

@@ -3,7 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { NavigationEnd, Router, RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 import { catchError, filter, of } from 'rxjs';
 import { UsuarioAdminVm } from '../../core/models/usuario-admin-vm.model';
-import { AuthDevService } from '../../core/services/auth-dev.service';
+import { AuthService } from '../../core/services/auth.service';
 
 interface AdminNavItem {
   label: string;
@@ -18,42 +18,42 @@ const DEFAULT_NAV_ITEMS: AdminNavItem[] = [
     label: 'Dashboard',
     route: '/admin/dashboard',
     icon: 'bi bi-grid-1x2',
-    description: 'Resumo operacional do painel'
+    description: 'Resumo operacional do painel',
   },
   {
     label: 'Eventos',
     route: '/admin/eventos',
     icon: 'bi bi-calendar-event',
-    description: 'Cadastros, agenda e arquivos'
+    description: 'Cadastros, agenda e arquivos',
   },
   {
     label: 'Participantes',
     route: '/admin/participantes',
     icon: 'bi bi-people',
-    description: 'Usuarios e referencia operacional'
+    description: 'Usuarios e referencia operacional',
   },
   {
     label: 'Relatorios',
     route: '/admin/relatorios',
     icon: 'bi bi-graph-up',
-    description: 'Indicadores e exportacoes'
+    description: 'Indicadores e exportacoes',
   },
   {
     label: 'Configuracoes',
     route: '/admin/configuracoes',
     icon: 'bi bi-gear',
-    description: 'Preferencias do sistema'
-  }
+    description: 'Preferencias do sistema',
+  },
 ];
 
 @Component({
   selector: 'app-admin-shell',
   imports: [RouterLink, RouterLinkActive, RouterOutlet],
   templateUrl: './admin-shell.component.html',
-  styleUrl: './admin-shell.component.css'
+  styleUrl: './admin-shell.component.css',
 })
 export class AdminShellComponent {
-  private readonly authDevService = inject(AuthDevService);
+  private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
 
@@ -65,16 +65,16 @@ export class AdminShellComponent {
     this.router.events
       .pipe(
         filter((event) => event instanceof NavigationEnd),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe(() => this.closeSidebar());
 
-    if (this.authDevService.isAuthenticated()) {
-      this.authDevService
-        .getPerfilDevVm()
+    if (this.authService.isAuthenticated()) {
+      this.authService
+        .getProfileVm()
         .pipe(
           catchError(() => of<UsuarioAdminVm | null>(null)),
-          takeUntilDestroyed(this.destroyRef)
+          takeUntilDestroyed(this.destroyRef),
         )
         .subscribe((profile) => this.currentProfile.set(profile));
     }
@@ -96,11 +96,11 @@ export class AdminShellComponent {
   }
 
   hasSession(): boolean {
-    return this.authDevService.isAuthenticated();
+    return this.authService.isAuthenticated();
   }
 
   logout(): void {
-    this.authDevService.logout();
+    this.authService.logout();
     this.currentProfile.set(null);
   }
 }

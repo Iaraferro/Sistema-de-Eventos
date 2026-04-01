@@ -14,7 +14,7 @@ export function mapUsuarioFormToApiUsuario(form: UsuarioAdminFormModel): ApiUsua
     email,
     username,
     senha: form.senha,
-    id_perfil: form.idPerfil ?? 1
+    id_perfil: form.idPerfil ?? 1,
   };
 }
 
@@ -28,12 +28,12 @@ export function mapApiUsuarioResponseToVm(usuario: ApiUsuarioResponse): UsuarioA
     email: usuario.email,
     perfilId,
     perfilNome,
-    isAdmin: perfilNome.toLowerCase() === 'adm'
+    isAdmin: perfilNome.toLowerCase() === 'adm',
   };
 }
 
 export function mapApiUsuarioResponseListToVmList(
-  usuarios: ApiUsuarioResponse[]
+  usuarios: ApiUsuarioResponse[],
 ): UsuarioAdminVm[] {
   return usuarios.map(mapApiUsuarioResponseToVm);
 }

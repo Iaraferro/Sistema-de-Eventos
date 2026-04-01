@@ -1,44 +1,61 @@
-![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
-![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white)
-![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
-![Bootstrap](https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white)
+# EcoEventos Palmas
 
-# 🌿 EcoEventos Palmas
+Sistema web para divulgação e gestão de eventos ambientais em Palmas-TO, com frontend oficial em Angular.
 
-Sistema web para gerenciamento e divulgação de eventos ambientais na cidade de Palmas-TO.
+## Stack oficial
 
-## 📋 Sobre o Projeto
+- Frontend: Angular 21
+- UI: Bootstrap 5 + Bootstrap Icons
+- Testes de frontend: Vitest
+- Backend consumido pelo frontend: API HTTP em `/api`
 
-O **EcoEventos Palmas** é uma plataforma desenvolvida para conectar a comunidade palmense com eventos ambientais locais. O sistema permite visualizar eventos futuros, conferir eventos realizados e obter informações detalhadas sobre cada atividade de preservação ambiental.
+## Estrutura do repositório
 
-## ✨ Funcionalidades
+```text
+Sistema-de-Eventos/
+|-- angular-app/
+|-- docs/
+|   `-- migracao-angular.md
+|-- Agente.md
+`-- README.md
+```
 
-- 🗓️ **Visualização de Eventos**: Listagem de eventos futuros e realizados
-- 📱 **Design Responsivo**: Interface adaptável para desktop e mobile
-- 🎯 **Cards Interativos**: Design moderno com hover effects e transições suaves
-- 🔍 **Detalhes de Eventos**: Página dedicada com informações completas
-- ⚡ **Performance Otimizada**: Carregamento rápido com skeleton screens
-- 🎨 **Interface Intuitiva**: UX cuidadosamente planejada
+## Funcionalidades atuais
 
-## 🛠️ Tecnologias Utilizadas
+- Página inicial pública com eventos futuros e realizados.
+- Página de detalhe do evento.
+- Login administrativo com JWT.
+- Dashboard administrativo.
+- Gestão de eventos com upload e download de arquivos.
+- Gestão operacional de participantes baseada em `GET /usuarios`.
+- Relatórios com exportação TXT e JSON.
+- Cadastro de administrador dentro da área autenticada.
 
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Framework**: Bootstrap 5.3.0
-- **Ícones**: Bootstrap Icons
-- **Fontes**: Google Fonts (Montserrat, Roboto)
-- **API**: Simulação com dados mock para desenvolvimento
+## Desenvolvimento local
 
-## 🎨 Design System
+No frontend Angular:
 
-- **Cores Principais**: 
-  - Verde (#2E8B57) - Representa sustentabilidade e meio ambiente
-  - Tons de cinza - Para textos e fundos
-- **Tipografia**:
-  - Títulos: Montserrat (600-700)
-  - Textos: Roboto (300-400)
-- **Componentes**:
-  - Cards com bordas arredondadas e sombras suaves
-  - Badges para status e categorias
-  - Botões com hover effects
+```bash
+cd angular-app
+npm run start
+```
 
-## 📦 Estrutura do Projeto
+O app usa `proxy.conf.json` para encaminhar `/api` ao backend local em `http://localhost:8080`.
+
+## Qualidade e validação
+
+No frontend Angular:
+
+```bash
+npm run build
+npm run test:ci
+npm run format:check
+npm run verify
+```
+
+## Status da migração
+
+- O frontend legado em `html/` foi mapeado e removido do build.
+- A equivalência funcional foi registrada em [docs/migracao-angular.md](docs/migracao-angular.md).
+- O app Angular é a fonte oficial das rotas públicas e administrativas.
+- Nenhuma página HTML antiga deve continuar publicada após o build atual.

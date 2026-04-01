@@ -6,10 +6,10 @@ import { EventoCardVm } from '../../core/models/evento-card-vm.model';
   selector: 'app-event-card',
   imports: [RouterLink],
   host: {
-    class: 'col-md-6 col-lg-4 mb-4'
+    class: 'col-md-6 col-lg-4 mb-4',
   },
   templateUrl: './event-card.component.html',
-  styleUrl: './event-card.component.css'
+  styleUrl: './event-card.component.css',
 })
 export class EventCardComponent {
   readonly event = input.required<EventoCardVm>();

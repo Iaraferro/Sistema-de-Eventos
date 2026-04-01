@@ -4,7 +4,8 @@
       <span class="eyebrow">Participantes</span>
       <h2 class="h3 fw-bold mt-2 mb-2">Referência operacional de usuários</h2>
       <p class="text-muted mb-0">
-        O backend atual ainda não expõe inscritos por evento, então esta área usa a lista de usuários.
+        O backend atual ainda não expõe inscritos por evento, então esta área usa a lista de
+        usuários.
       </p>
     </div>
 
@@ -49,7 +50,8 @@
         <div class="note-box mt-4">
           <i class="bi bi-info-circle"></i>
           <p class="mb-0">
-            Quando existir endpoint de inscrições por evento, esta seção pode ser especializada sem refazer o layout.
+            Quando existir endpoint de inscrições por evento, esta seção pode ser especializada sem
+            refazer o layout.
           </p>
         </div>
       </div>
@@ -69,7 +71,7 @@
               class="form-control border-0"
               placeholder="Buscar usuário"
               [value]="searchQuery()"
-              (input)="updateSearch(($any($event.target)).value)"
+              (input)="updateSearch($any($event.target).value)"
             />
           </div>
         </div>

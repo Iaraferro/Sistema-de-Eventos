@@ -3,18 +3,18 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
-import { AuthDevService } from '../../core/services/auth-dev.service';
+import { AuthService } from '../../core/services/auth.service';
 import { resolveApiErrorMessage } from '../../core/utils/http-error.util';
 
 @Component({
   selector: 'app-admin-access-page',
   imports: [ReactiveFormsModule],
   templateUrl: './admin-access-page.component.html',
-  styleUrl: './admin-access-page.component.css'
+  styleUrl: './admin-access-page.component.css',
 })
 export class AdminAccessPageComponent {
   private readonly formBuilder = inject(FormBuilder);
-  private readonly authDevService = inject(AuthDevService);
+  private readonly authService = inject(AuthService);
   private readonly router = inject(Router);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -24,7 +24,7 @@ export class AdminAccessPageComponent {
 
   readonly loginForm = this.formBuilder.nonNullable.group({
     username: ['admin', [Validators.required, Validators.minLength(4)]],
-    senha: ['', [Validators.required, Validators.minLength(6)]]
+    senha: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   login(): void {
@@ -40,14 +40,14 @@ export class AdminAccessPageComponent {
 
     const credentials = {
       username: this.loginForm.controls.username.value.trim(),
-      senha: this.loginForm.controls.senha.value
+      senha: this.loginForm.controls.senha.value,
     };
 
-    this.authDevService
+    this.authService
       .login(credentials)
       .pipe(
         finalize(() => this.loginPending.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: () => {
@@ -58,9 +58,9 @@ export class AdminAccessPageComponent {
         error: (error) => {
           this.loginAlertTone.set('danger');
           this.loginFeedback.set(
-            resolveApiErrorMessage(error, 'Nao foi possivel realizar o login.')
+            resolveApiErrorMessage(error, 'Nao foi possivel realizar o login.'),
           );
-        }
+        },
       });
   }
 }

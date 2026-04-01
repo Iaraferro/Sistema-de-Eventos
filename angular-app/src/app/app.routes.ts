@@ -11,29 +11,27 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('./features/home/home-page.component').then(
-            (module) => module.HomePageComponent
-          ),
-        title: 'EcoEventos Palmas - Sistema de Eventos Ambientais'
+          import('./features/home/home-page.component').then((module) => module.HomePageComponent),
+        title: 'EcoEventos Palmas - Sistema de Eventos Ambientais',
       },
       {
         path: 'eventos/:id',
         loadComponent: () =>
           import('./features/event-detail/event-detail-page.component').then(
-            (module) => module.EventDetailPageComponent
+            (module) => module.EventDetailPageComponent,
           ),
-        title: 'Detalhes do Evento - EcoEventos Palmas'
-      }
-    ]
+        title: 'Detalhes do Evento - EcoEventos Palmas',
+      },
+    ],
   },
   {
     path: 'admin/acesso',
     canActivate: [adminGuestGuard],
     loadComponent: () =>
       import('./features/admin-access/admin-access-page.component').then(
-        (module) => module.AdminAccessPageComponent
+        (module) => module.AdminAccessPageComponent,
       ),
-    title: 'Acesso Administrativo - EcoEventos Palmas'
+    title: 'Acesso Administrativo - EcoEventos Palmas',
   },
   {
     path: 'admin',
@@ -41,58 +39,58 @@ export const routes: Routes = [
     canActivateChild: [adminAuthGuard],
     loadComponent: () =>
       import('./features/admin-shell/admin-shell.component').then(
-        (module) => module.AdminShellComponent
+        (module) => module.AdminShellComponent,
       ),
     children: [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'dashboard'
+        redirectTo: 'dashboard',
       },
       {
         path: 'dashboard',
         loadComponent: () =>
           import('./features/admin-dashboard/admin-dashboard-page.component').then(
-            (module) => module.AdminDashboardPageComponent
+            (module) => module.AdminDashboardPageComponent,
           ),
-        title: 'Dashboard Administrativo - EcoEventos Palmas'
+        title: 'Dashboard Administrativo - EcoEventos Palmas',
       },
       {
         path: 'eventos',
         loadComponent: () =>
           import('./features/admin-events/admin-events-page.component').then(
-            (module) => module.AdminEventsPageComponent
+            (module) => module.AdminEventsPageComponent,
           ),
-        title: 'Eventos Administrativos - EcoEventos Palmas'
+        title: 'Eventos Administrativos - EcoEventos Palmas',
       },
       {
         path: 'participantes',
         loadComponent: () =>
           import('./features/admin-participants/admin-participants-page.component').then(
-            (module) => module.AdminParticipantsPageComponent
+            (module) => module.AdminParticipantsPageComponent,
           ),
-        title: 'Participantes - EcoEventos Palmas'
+        title: 'Participantes - EcoEventos Palmas',
       },
       {
         path: 'relatorios',
         loadComponent: () =>
           import('./features/admin-reports/admin-reports-page.component').then(
-            (module) => module.AdminReportsPageComponent
+            (module) => module.AdminReportsPageComponent,
           ),
-        title: 'Relatórios - EcoEventos Palmas'
+        title: 'Relatórios - EcoEventos Palmas',
       },
       {
         path: 'configuracoes',
         loadComponent: () =>
           import('./features/admin-settings/admin-settings-page.component').then(
-            (module) => module.AdminSettingsPageComponent
+            (module) => module.AdminSettingsPageComponent,
           ),
-        title: 'Configurações - EcoEventos Palmas'
-      }
-    ]
+        title: 'Configurações - EcoEventos Palmas',
+      },
+    ],
   },
   {
     path: '**',
-    redirectTo: ''
-  }
+    redirectTo: '',
+  },
 ];

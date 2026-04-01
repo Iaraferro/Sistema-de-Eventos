@@ -10,7 +10,7 @@ import { EventCardComponent } from '../../shared/components/event-card.component
   selector: 'app-home-page',
   imports: [RouterLink, EventCardComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.css'
+  styleUrl: './home-page.component.css',
 })
 export class HomePageComponent {
   private readonly eventosApiService = inject(EventosApiService);
@@ -22,10 +22,10 @@ export class HomePageComponent {
   readonly upcomingEvents = signal<EventoCardVm[]>([]);
   readonly completedEvents = signal<EventoCardVm[]>([]);
   readonly hasNoUpcomingEvents = computed(
-    () => !this.isLoading() && !this.errorMessage() && this.upcomingEvents().length === 0
+    () => !this.isLoading() && !this.errorMessage() && this.upcomingEvents().length === 0,
   );
   readonly hasNoCompletedEvents = computed(
-    () => !this.isLoading() && !this.errorMessage() && this.completedEvents().length === 0
+    () => !this.isLoading() && !this.errorMessage() && this.completedEvents().length === 0,
   );
 
   constructor() {
@@ -53,12 +53,12 @@ export class HomePageComponent {
         },
         error: () => {
           this.errorMessage.set(
-            'Não foi possível carregar os eventos. Tente novamente em alguns instantes.'
+            'Não foi possível carregar os eventos. Tente novamente em alguns instantes.',
           );
           this.upcomingEvents.set([]);
           this.completedEvents.set([]);
           this.isLoading.set(false);
-        }
+        },
       });
   }
 }

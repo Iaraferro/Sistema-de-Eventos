@@ -2,6 +2,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http
 import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
+import { AUTH_TOKEN_STORAGE_KEY } from '../constants/storage.constants';
 import { environment } from '../../../environments/environment';
 
 export interface ApiRequestOptions {
@@ -14,49 +15,35 @@ export class ApiClientService {
   private readonly http = inject(HttpClient);
   private readonly router = inject(Router);
   private readonly baseUrl = environment.apiBaseUrl;
-  private readonly tokenStorageKey = 'jwtToken';
-  private readonly legacyTokenStorageKey = 'ecoeventos-admin-dev-token';
+  private readonly tokenStorageKey = AUTH_TOKEN_STORAGE_KEY;
 
   getBaseUrl(): string {
     return this.baseUrl;
   }
 
   getToken(): string | null {
-    const currentToken = localStorage.getItem(this.tokenStorageKey);
-    if (currentToken) {
-      return currentToken;
-    }
-
-    const legacyToken = localStorage.getItem(this.legacyTokenStorageKey);
-    if (legacyToken) {
-      localStorage.setItem(this.tokenStorageKey, legacyToken);
-      localStorage.removeItem(this.legacyTokenStorageKey);
-    }
-
-    return legacyToken;
+    return localStorage.getItem(this.tokenStorageKey);
   }
 
   setToken(token: string): void {
     localStorage.setItem(this.tokenStorageKey, token);
-    localStorage.removeItem(this.legacyTokenStorageKey);
   }
 
   clearToken(): void {
     localStorage.removeItem(this.tokenStorageKey);
-    localStorage.removeItem(this.legacyTokenStorageKey);
   }
 
   get<T>(path: string, options: ApiRequestOptions = {}): Observable<T> {
     return this.handleRequest(
       this.http.get<T>(this.buildUrl(path), { headers: this.buildHeaders(options) }),
-      options
+      options,
     );
   }
 
   getUnknown(path: string, options: ApiRequestOptions = {}): Observable<unknown> {
     return this.handleRequest(
       this.http.get<unknown>(this.buildUrl(path), { headers: this.buildHeaders(options) }),
-      options
+      options,
     );
   }
 
@@ -64,18 +51,18 @@ export class ApiClientService {
     return this.handleRequest(
       this.http.get(this.buildUrl(path), {
         headers: this.buildHeaders(options),
-        responseType: 'blob'
+        responseType: 'blob',
       }),
-      options
+      options,
     );
   }
 
   post<T>(path: string, body: unknown, options: ApiRequestOptions = {}): Observable<T> {
     return this.handleRequest(
       this.http.post<T>(this.buildUrl(path), body, {
-        headers: this.buildHeaders(options, body)
+        headers: this.buildHeaders(options, body),
       }),
-      options
+      options,
     );
   }
 
@@ -83,36 +70,36 @@ export class ApiClientService {
     return this.handleRequest(
       this.http.post(this.buildUrl(path), body, {
         headers: this.buildHeaders(options, body),
-        responseType: 'text'
+        responseType: 'text',
       }),
-      options
+      options,
     );
   }
 
   upload<T>(path: string, formData: FormData, options: ApiRequestOptions = {}): Observable<T> {
     return this.handleRequest(
       this.http.post<T>(this.buildUrl(path), formData, {
-        headers: this.buildHeaders(options)
+        headers: this.buildHeaders(options),
       }),
-      options
+      options,
     );
   }
 
   put<T>(path: string, body: unknown, options: ApiRequestOptions = {}): Observable<T> {
     return this.handleRequest(
       this.http.put<T>(this.buildUrl(path), body, {
-        headers: this.buildHeaders(options, body)
+        headers: this.buildHeaders(options, body),
       }),
-      options
+      options,
     );
   }
 
   delete<T>(path: string, options: ApiRequestOptions = {}): Observable<T> {
     return this.handleRequest(
       this.http.delete<T>(this.buildUrl(path), {
-        headers: this.buildHeaders(options)
+        headers: this.buildHeaders(options),
       }),
-      options
+      options,
     );
   }
 
@@ -151,7 +138,7 @@ export class ApiClientService {
         }
 
         return throwError(() => error);
-      })
+      }),
     );
   }
 }

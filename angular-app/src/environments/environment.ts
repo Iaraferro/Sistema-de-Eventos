@@ -1,4 +1,6 @@
-export const environment = {
+import { AppEnvironment } from './environment.model';
+
+export const environment: AppEnvironment = {
   production: true,
-  apiBaseUrl: 'http://localhost:8080'
+  apiBaseUrl: '/api',
 };

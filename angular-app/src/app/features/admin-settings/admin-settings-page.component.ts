@@ -5,7 +5,7 @@ import { catchError, finalize, of } from 'rxjs';
 import { UsuarioAdminFormModel } from '../../core/models/usuario-admin-form.model';
 import { UsuarioAdminVm } from '../../core/models/usuario-admin-vm.model';
 import { ApiClientService } from '../../core/services/api-client.service';
-import { AuthDevService } from '../../core/services/auth-dev.service';
+import { AuthService } from '../../core/services/auth.service';
 import { UsuariosAdminService } from '../../core/services/usuarios-admin.service';
 import { resolveApiErrorMessage } from '../../core/utils/http-error.util';
 
@@ -13,12 +13,12 @@ import { resolveApiErrorMessage } from '../../core/utils/http-error.util';
   selector: 'app-admin-settings-page',
   imports: [ReactiveFormsModule],
   templateUrl: './admin-settings-page.component.html',
-  styleUrl: './admin-settings-page.component.css'
+  styleUrl: './admin-settings-page.component.css',
 })
 export class AdminSettingsPageComponent {
   private readonly formBuilder = inject(FormBuilder);
   private readonly apiClientService = inject(ApiClientService);
-  private readonly authDevService = inject(AuthDevService);
+  private readonly authService = inject(AuthService);
   private readonly usuariosAdminService = inject(UsuariosAdminService);
   private readonly destroyRef = inject(DestroyRef);
 
@@ -35,7 +35,7 @@ export class AdminSettingsPageComponent {
     avisarParticipantes: [false],
     timezone: ['America/Araguaina', Validators.required],
     idioma: ['pt-BR', Validators.required],
-    formatoData: ['DD/MM/AAAA', Validators.required]
+    formatoData: ['DD/MM/AAAA', Validators.required],
   });
 
   readonly registerForm = this.formBuilder.nonNullable.group({
@@ -43,24 +43,22 @@ export class AdminSettingsPageComponent {
     email: ['', [Validators.required, Validators.email]],
     username: ['', [Validators.minLength(4)]],
     senha: ['', [Validators.required, Validators.minLength(6)]],
-    idPerfil: [1]
+    idPerfil: [1],
   });
 
   constructor() {
-    this.authDevService
-      .getPerfilDevVm()
+    this.authService
+      .getProfileVm()
       .pipe(
         catchError(() => of<UsuarioAdminVm | null>(null)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((profile) => this.profile.set(profile));
   }
 
   savePreferences(): void {
     this.saveAlertTone.set('info');
-    this.saveFeedback.set(
-      'Preferencias salvas apenas no cliente nesta etapa. A persistencia final entra depois da validacao manual.'
-    );
+    this.saveFeedback.set('Preferencias salvas apenas na sessao atual do painel.');
   }
 
   registerAdmin(): void {
@@ -83,14 +81,14 @@ export class AdminSettingsPageComponent {
       email: raw.email.trim(),
       username,
       senha: raw.senha,
-      idPerfil: 1
+      idPerfil: 1,
     };
 
     this.usuariosAdminService
       .createUsuario(payload)
       .pipe(
         finalize(() => this.registerPending.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: (usuario) => {
@@ -101,15 +99,15 @@ export class AdminSettingsPageComponent {
             email: '',
             username: '',
             senha: '',
-            idPerfil: 1
+            idPerfil: 1,
           });
         },
         error: (error) => {
           this.registerAlertTone.set('danger');
           this.registerFeedback.set(
-            resolveApiErrorMessage(error, 'Nao foi possivel cadastrar o administrador.')
+            resolveApiErrorMessage(error, 'Nao foi possivel cadastrar o administrador.'),
           );
-        }
+        },
       });
   }
 
@@ -118,7 +116,7 @@ export class AdminSettingsPageComponent {
   }
 
   tokenAtivo(): string {
-    return this.authDevService.getToken() ? 'sim' : 'nao';
+    return this.authService.getToken() ? 'sim' : 'nao';
   }
 }
 

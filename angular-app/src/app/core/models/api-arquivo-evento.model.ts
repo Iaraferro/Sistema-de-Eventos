@@ -5,4 +5,3 @@ export interface ApiArquivoEvento {
   mimeType: string | null;
   dataUpload: string | null;
 }
-

@@ -16,4 +16,3 @@ export interface EventoAdminFormModel {
   imagem: string;
   arquivos: string[];
 }
-

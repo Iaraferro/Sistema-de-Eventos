@@ -10,7 +10,7 @@ import { EventosApiService } from '../../core/services/eventos-api.service';
   selector: 'app-event-detail-page',
   imports: [RouterLink],
   templateUrl: './event-detail-page.component.html',
-  styleUrl: './event-detail-page.component.css'
+  styleUrl: './event-detail-page.component.css',
 })
 export class EventDetailPageComponent {
   private readonly route = inject(ActivatedRoute);
@@ -46,10 +46,10 @@ export class EventDetailPageComponent {
               this.errorMessage.set('Evento não encontrado ou indisponível.');
               this.event.set(null);
               return EMPTY;
-            })
+            }),
           );
         }),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe((evento) => {
         this.event.set(evento);

@@ -37,14 +37,11 @@ export function mapApiEventoToCardVm(evento: ApiEvento, apiBaseUrl: string): Eve
     statusBadgeClass: getStatusBadgeClass(status),
     timestamp: date?.getTime() ?? Number.MAX_SAFE_INTEGER,
     isPast: status === 'past',
-    ariaLabel: `Abrir detalhes de ${title}`
+    ariaLabel: `Abrir detalhes de ${title}`,
   };
 }
 
-export function mapApiEventoToDetailVm(
-  evento: ApiEvento,
-  apiBaseUrl: string
-): EventoDetailVm {
+export function mapApiEventoToDetailVm(evento: ApiEvento, apiBaseUrl: string): EventoDetailVm {
   const date = normalizeDateTimeValue(evento.dataHora);
   const status = resolveStatus(date);
   const title = normalizeText(evento.nome, 'Evento sem título');
@@ -64,13 +61,13 @@ export function mapApiEventoToDetailVm(
       ? new Intl.DateTimeFormat(LOCALE, {
           day: '2-digit',
           month: 'long',
-          year: 'numeric'
+          year: 'numeric',
         }).format(date)
       : 'Data a confirmar',
     timeLabel: date
       ? new Intl.DateTimeFormat(LOCALE, {
           hour: '2-digit',
-          minute: '2-digit'
+          minute: '2-digit',
         }).format(date)
       : 'A confirmar',
     organizerLabel: DEFAULT_ORGANIZER,
@@ -78,7 +75,7 @@ export function mapApiEventoToDetailVm(
     requirementsLabel: DEFAULT_REQUIREMENTS,
     participantsLabel: '0 participantes',
     statusLabel: getStatusLabel(status),
-    isPast: status === 'past'
+    isPast: status === 'past',
   };
 }
 
@@ -166,19 +163,19 @@ export function formatDisplayDate(date: Date): string {
   return new Intl.DateTimeFormat(LOCALE, {
     day: '2-digit',
     month: 'short',
-    year: 'numeric'
+    year: 'numeric',
   }).format(date);
 }
 
 export function formatDisplayTime(date: Date): string {
   return new Intl.DateTimeFormat(LOCALE, {
     hour: '2-digit',
-    minute: '2-digit'
+    minute: '2-digit',
   }).format(date);
 }
 
 export function formatDateInputValue(date: Date): string {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(
-    date.getDate()
+    date.getDate(),
   ).padStart(2, '0')}`;
 }

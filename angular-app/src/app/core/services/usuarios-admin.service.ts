@@ -1,6 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { mapApiUsuarioResponseListToVmList, mapUsuarioFormToApiUsuario } from '../mappers/usuario-admin.mapper';
+import {
+  mapApiUsuarioResponseListToVmList,
+  mapUsuarioFormToApiUsuario,
+} from '../mappers/usuario-admin.mapper';
 import { ApiUsuarioResponse } from '../models/api-usuario-response.model';
 import { UsuarioAdminFormModel } from '../models/usuario-admin-form.model';
 import { UsuarioAdminVm } from '../models/usuario-admin-vm.model';
@@ -22,7 +25,7 @@ export class UsuariosAdminService {
 
   createUsuario(form: UsuarioAdminFormModel): Observable<ApiUsuarioResponse> {
     return this.apiClient.post<ApiUsuarioResponse>('/usuarios', mapUsuarioFormToApiUsuario(form), {
-      auth: true
+      auth: true,
     });
   }
 }

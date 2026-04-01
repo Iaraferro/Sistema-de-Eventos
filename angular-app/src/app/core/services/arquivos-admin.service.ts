@@ -22,7 +22,7 @@ export class ArquivosAdminService {
     formData.append('idEvento', String(idEvento));
 
     return this.apiClient.upload<ApiArquivoEvento>(`/eventos/${idEvento}/arquivos`, formData, {
-      auth: true
+      auth: true,
     });
   }
 

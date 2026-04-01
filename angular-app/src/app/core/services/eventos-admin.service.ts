@@ -1,6 +1,10 @@
 import { inject, Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { mapAdminFormToApiEvento, mapApiEventoListToAdminVmList, mapApiEventoToAdminForm } from '../mappers/evento-admin.mapper';
+import {
+  mapAdminFormToApiEvento,
+  mapApiEventoListToAdminVmList,
+  mapApiEventoToAdminForm,
+} from '../mappers/evento-admin.mapper';
 import { ApiEvento } from '../models/api-evento.model';
 import { EventoAdminFormModel } from '../models/evento-admin-form.model';
 import { EventoAdminVm } from '../models/evento-admin-vm.model';
@@ -19,7 +23,7 @@ export class EventosAdminService {
 
   listEventosVm(): Observable<EventoAdminVm[]> {
     return this.listEventos().pipe(
-      map((eventos) => mapApiEventoListToAdminVmList(eventos, this.apiClient.getBaseUrl()))
+      map((eventos) => mapApiEventoListToAdminVmList(eventos, this.apiClient.getBaseUrl())),
     );
   }
 
@@ -31,17 +35,19 @@ export class EventosAdminService {
 
   getEventoForm(id: number): Observable<EventoAdminFormModel> {
     return this.getEvento(id).pipe(
-      map((evento) => mapApiEventoToAdminForm(evento, this.apiClient.getBaseUrl()))
+      map((evento) => mapApiEventoToAdminForm(evento, this.apiClient.getBaseUrl())),
     );
   }
 
   createEvento(form: EventoAdminFormModel): Observable<ApiEvento> {
-    return this.apiClient.post<ApiEvento>('/eventos', mapAdminFormToApiEvento(form), { auth: true });
+    return this.apiClient.post<ApiEvento>('/eventos', mapAdminFormToApiEvento(form), {
+      auth: true,
+    });
   }
 
   updateEvento(id: number, form: EventoAdminFormModel): Observable<ApiEvento> {
     return this.apiClient.put<ApiEvento>(`/eventos/${id}`, mapAdminFormToApiEvento(form), {
-      auth: true
+      auth: true,
     });
   }
 

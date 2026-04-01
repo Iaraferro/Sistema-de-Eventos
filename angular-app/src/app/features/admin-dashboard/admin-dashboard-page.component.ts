@@ -31,7 +31,7 @@ interface TimelineItem {
   selector: 'app-admin-dashboard-page',
   imports: [RouterLink],
   templateUrl: './admin-dashboard-page.component.html',
-  styleUrl: './admin-dashboard-page.component.css'
+  styleUrl: './admin-dashboard-page.component.css',
 })
 export class AdminDashboardPageComponent {
   private readonly eventosAdminService = inject(EventosAdminService);
@@ -56,51 +56,49 @@ export class AdminDashboardPageComponent {
         value: String(eventos.length),
         delta: `${futuros} futuros ou em andamento`,
         icon: 'bi bi-calendar2-week',
-        tone: 'primary'
+        tone: 'primary',
       },
       {
         label: 'Usuários mapeados',
         value: String(usuarios.length),
         delta: `${admins} com perfil administrativo`,
         icon: 'bi bi-people',
-        tone: 'success'
+        tone: 'success',
       },
       {
         label: 'Eventos realizados',
         value: String(realizados),
         delta: 'Histórico disponível para relatórios',
         icon: 'bi bi-graph-up-arrow',
-        tone: 'info'
+        tone: 'info',
       },
       {
         label: 'Alertas operacionais',
         value: eventos.length === 0 ? '1' : '0',
         delta: eventos.length === 0 ? 'Sem eventos cadastrados' : 'Painel sincronizado',
         icon: 'bi bi-exclamation-triangle',
-        tone: 'warning'
-      }
+        tone: 'warning',
+      },
     ];
   });
 
   readonly timeline = computed<TimelineItem[]>(() => {
-    const futuros = [...this.eventos()]
-      .filter((evento) => evento.estado !== 'past')
-      .slice(0, 3);
+    const futuros = [...this.eventos()].filter((evento) => evento.estado !== 'past').slice(0, 3);
 
     if (futuros.length === 0) {
       return [
         {
           title: 'Nenhum evento futuro encontrado',
           helper: 'Cadastre ou revise eventos para alimentar a agenda administrativa.',
-          tone: 'warning'
-        }
+          tone: 'warning',
+        },
       ];
     }
 
     return futuros.map((evento, index) => ({
       title: `${evento.titulo} · ${evento.dataLabel}`,
       helper: `${evento.local} · ${evento.horarioLabel}`,
-      tone: index === 0 ? 'success' : index === 1 ? 'primary' : 'warning'
+      tone: index === 0 ? 'success' : index === 1 ? 'primary' : 'warning',
     }));
   });
 
@@ -108,18 +106,18 @@ export class AdminDashboardPageComponent {
     {
       title: 'Revisar agenda da semana',
       description: `Há ${this.eventos().filter((evento) => evento.estado !== 'past').length} eventos futuros para acompanhar.`,
-      meta: 'Prioridade alta'
+      meta: 'Prioridade alta',
     },
     {
       title: 'Conferir usuários operacionais',
       description: `${this.usuarios().length} usuários retornados pela API atual.`,
-      meta: 'Rotina administrativa'
+      meta: 'Rotina administrativa',
     },
     {
-      title: 'Gerar checkpoint manual',
-      description: 'Validar CRUD, listagens e responsividade antes da etapa de segurança.',
-      meta: 'Bloqueador da próxima fase'
-    }
+      title: 'Gerar checkpoint operacional',
+      description: 'Validar CRUD, listagens, relatorios e arquivos do painel atual.',
+      meta: 'Rotina de conferencia',
+    },
   ]);
 
   constructor() {
@@ -136,13 +134,13 @@ export class AdminDashboardPageComponent {
 
     forkJoin({
       eventos: this.eventosAdminService.listEventosVm(),
-      usuarios: this.usuariosAdminService.listUsuariosVm().pipe(
-        catchError(() => of<UsuarioAdminVm[]>([]))
-      )
+      usuarios: this.usuariosAdminService
+        .listUsuariosVm()
+        .pipe(catchError(() => of<UsuarioAdminVm[]>([]))),
     })
       .pipe(
         finalize(() => this.loading.set(false)),
-        takeUntilDestroyed(this.destroyRef)
+        takeUntilDestroyed(this.destroyRef),
       )
       .subscribe({
         next: ({ eventos, usuarios }) => {
@@ -151,7 +149,7 @@ export class AdminDashboardPageComponent {
         },
         error: () => {
           this.error.set('Não foi possível carregar o resumo administrativo com a API atual.');
-        }
+        },
       });
   }
 }

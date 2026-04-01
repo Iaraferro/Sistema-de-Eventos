@@ -6,4 +6,3 @@ export interface ApiUsuarioResponse {
   perfil: ApiPerfil | null;
   email: string;
 }
-
